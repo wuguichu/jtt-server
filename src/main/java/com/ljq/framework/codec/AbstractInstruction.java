@@ -1,13 +1,13 @@
 package com.ljq.framework.codec;
 
-public abstract class AbstractInstruction{
-	public void setHeader(MessageHeader header){
-		this.header = header;
-	}
+public abstract class AbstractInstruction {
+    public MessageHeader getHeader() {
+        return header;
+    }
 
-	public MessageHeader getHeader(){
-		return header;
-	}
-	
-	protected MessageHeader header;
+    public void setHeader(MessageHeader header) {
+        this.header = header;
+    }
+
+    protected MessageHeader header;
 }

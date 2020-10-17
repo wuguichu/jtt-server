@@ -1,66 +1,66 @@
 package com.ljq.framework.codec;
 
 public class MessageHeader{
-	public void setSerialNo(int serialNo){
-		this.serialNo = serialNo;
-	}
-
-	public int getSerialNo(){
+	public int getSerialNo() {
 		return serialNo;
 	}
 
-	public void setPackageLen(long packageLen){
-		this.packageLen = packageLen;
+	public void setSerialNo(int serialNo) {
+		this.serialNo = serialNo;
 	}
 
-	public long getPackageLen(){
+	public long getPackageLen() {
 		return packageLen;
 	}
 
-	public void setTotalPack(long totalPack){
-		this.totalPack = totalPack;
+	public void setPackageLen(long packageLen) {
+		this.packageLen = packageLen;
 	}
 
-	public long getTotalPack(){
+	public long getTotalPack() {
 		return totalPack;
 	}
 
-	public void setCurrentPack(long currentPack){
-		this.currentPack = currentPack;
+	public void setTotalPack(long totalPack) {
+		this.totalPack = totalPack;
 	}
 
-	public long getCurrentPack(){
+	public long getCurrentPack() {
 		return currentPack;
 	}
 
-	public void setInstruction(long instruction){
-		this.instruction = instruction;
+	public void setCurrentPack(long currentPack) {
+		this.currentPack = currentPack;
 	}
 
-	public long getInstruction(){
+	public long getInstruction() {
 		return instruction;
 	}
 
-	public void setTerminalNum(String terminalNum){
+	public void setInstruction(long instruction) {
+		this.instruction = instruction;
+	}
+
+	public String getTerminalNum() {
+		return terminalNum;
+	}
+
+	public void setTerminalNum(String terminalNum) {
 		this.terminalNum = terminalNum;
 	}
 
-	public String getTerminalNum(){
-		return terminalNum;
-	}
-	
 	@Override
-	public String toString(){
-		return "["+
-			"serialNo:" + serialNo + 
-			", packageLen:" + packageLen +
-			", totalPack:" + totalPack +
-			", currentPack:" + currentPack +
-			", instruction:" + instruction +
-			", terminalSerial:" + terminalNum +
-			"]";
+	public String toString() {
+		return "MessageHeader{" +
+				"serialNo=" + serialNo +
+				", packageLen=" + packageLen +
+				", totalPack=" + totalPack +
+				", currentPack=" + currentPack +
+				", instruction=" + instruction +
+				", terminalNum='" + terminalNum + '\'' +
+				'}';
 	}
-	
+
 	private int serialNo;
 	private long packageLen;
 	private long totalPack;

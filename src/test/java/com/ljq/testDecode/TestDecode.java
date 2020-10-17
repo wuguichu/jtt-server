@@ -1,8 +1,10 @@
-//package com.ssh.framework.test;
+package com.ljq.testDecode;//package com.ssh.framework.test;
 
 import com.ljq.framework.codec.*;
 //import org.apache.log4j.Logger;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 public class TestDecode{
 	//private static Logger logger = Logger.getLogger(TestDecode.class);
