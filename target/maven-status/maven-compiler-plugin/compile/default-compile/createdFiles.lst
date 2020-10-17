@@ -1,0 +1,12 @@
+com/ljq/framework/fields/FieldType.class
+com/ljq/framework/fields/AbstractField.class
+com/ljq/framework/fields/BcdField.class
+com/ljq/framework/fields/FixedStringField.class
+com/ljq/framework/codec/AbstractInstruction.class
+com/ljq/framework/fields/Int8Field.class
+com/ljq/framework/utils/ByteTransform.class
+com/ljq/framework/codec/Field.class
+com/ljq/framework/codec/MessageDecode.class
+com/ljq/framework/utils/BCDTransform.class
+com/ljq/framework/fields/ReserveField.class
+com/ljq/framework/codec/MessageHeader.class
