@@ -7,8 +7,8 @@ public class ReserveField extends AbstractField<Byte> {
     }
 
     @Override
-    public int byte2type(byte[] buf) {
-        if (buf.length < length) {
+    public int byte2type(byte[] buf, int offset) {
+        if (buf.length < length + offset) {
             return -1;
         }
         return length;

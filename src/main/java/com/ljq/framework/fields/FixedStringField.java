@@ -7,12 +7,12 @@ public class FixedStringField extends AbstractField<String> {
     }
 
     @Override
-    public int byte2type(byte[] buf) {
-        if (buf.length < length) {
+    public int byte2type(byte[] buf, int offset) {
+        if (buf.length < length + offset) {
             return -1;
         }
         byte[] buffer = new byte[length];
-        System.arraycopy(buf, 0, buffer, 0, length);
+        System.arraycopy(buf, offset, buffer, 0, length);
         type = new String(buffer);
         return length;
     }
@@ -25,5 +25,5 @@ public class FixedStringField extends AbstractField<String> {
         return buf;
     }
 
-	private int length;
+    private int length;
 }

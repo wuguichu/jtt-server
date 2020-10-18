@@ -1,17 +1,21 @@
 package com.ljq.framework.fields;
 
 public class BcdField extends AbstractField<byte[]> {
-    @Override
-    public void setLength(int length) {
-        this.length = length;
+    public BcdField() {
     }
 
     @Override
-    public int byte2type(byte[] buf) {
-        if (buf.length < length) {
+    public void setLength(int length) {
+        this.length = length;
+        type = new byte[length];
+    }
+
+    @Override
+    public int byte2type(byte[] buf, int offset) {
+        if (buf.length < length + offset) {
             return -1;
         }
-        System.arraycopy(buf, 0, type, 0, length);
+        System.arraycopy(buf, offset, type, 0, length);
         return length;
     }
 

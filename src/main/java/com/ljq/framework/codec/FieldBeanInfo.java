@@ -5,10 +5,6 @@ import com.ljq.framework.fields.AbstractField;
 import java.lang.reflect.Method;
 
 public class FieldBeanInfo {
-    private AbstractField<?> field;
-    private Method readMethod;
-    private Method writeMethod;
-
     public AbstractField<?> getField() {
         return field;
     }
@@ -41,4 +37,8 @@ public class FieldBeanInfo {
                 ", writeMethod=" + writeMethod +
                 '}';
     }
+
+    private AbstractField<?> field;
+    private Method readMethod;
+    private Method writeMethod;
 }

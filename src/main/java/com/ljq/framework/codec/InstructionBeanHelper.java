@@ -46,30 +46,30 @@ public final class InstructionBeanHelper {
 
     private static TreeMap<Integer, FieldBeanInfo> getClassifiedInfo(Class<?> clazz) {
         TreeMap<Integer, FieldBeanInfo> integerFieldBeanInfoTreeMap = new TreeMap<>();
+
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
-                if (readMethod != null) {
-                    if (readMethod.isAnnotationPresent(Field.class)) {
-                        Field field = readMethod.getDeclaredAnnotation(Field.class);
-                        AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
-                        if (field.length() > 0) {
-                            assert fieldProduct != null;
-                            fieldProduct.setLength(field.length());
-                        }
-
-                        FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
-                        fieldBeanInfo.setField(fieldProduct);
-                        fieldBeanInfo.setReadMethod(readMethod);
-                        Method writeMethod = propertyDescriptor.getWriteMethod();
-                        if (writeMethod != null) {
-                            fieldBeanInfo.setWriteMethod(writeMethod);
-                        }
-                        integerFieldBeanInfoTreeMap.put(field.index(), fieldBeanInfo);
+                if (readMethod != null && readMethod.isAnnotationPresent(Field.class)) {
+                    Field field = readMethod.getDeclaredAnnotation(Field.class);
+                    AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
+                    if (field.length() > 0) {
+                        assert fieldProduct != null;
+                        fieldProduct.setLength(field.length());
                     }
+
+                    FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
+                    fieldBeanInfo.setField(fieldProduct);
+                    fieldBeanInfo.setReadMethod(readMethod);
+                    Method writeMethod = propertyDescriptor.getWriteMethod();
+                    if (writeMethod != null) {
+                        fieldBeanInfo.setWriteMethod(writeMethod);
+                    }
+                    integerFieldBeanInfoTreeMap.put(field.index(), fieldBeanInfo);
                 }
+
             }
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);
@@ -77,7 +77,7 @@ public final class InstructionBeanHelper {
         return integerFieldBeanInfoTreeMap;
     }
 
-    public static List<Class<?>> getClassList(String packagePath) {
+    private static List<Class<?>> getClassList(String packagePath) {
         List<Class<?>> classList = new LinkedList<>();
         String path = packagePath.replace(".", "/");
         try {

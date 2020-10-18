@@ -1,26 +1,73 @@
 package com.ljq.framework.codec;
 
-import com.ljq.framework.utils.*;
+import com.ljq.framework.fields.AbstractField;
+import com.ljq.framework.utils.BCDTransform;
+import com.ljq.framework.utils.ByteTransform;
 
-public class MessageDecode {
-    public void decode(byte[] buf) {
-        MessageHeader header = decodeHeader(buf);
-        if (null == header) {
-            return;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class MessageDecode<log> {
+
+    public void initial(String packagePath) {
+        instructInfo = InstructionBeanHelper.getBeanInfo(packagePath);
+    }
+
+    public AbstractInstruction decode(byte[] buf) {
+        try {
+            MessageHeader header = decodeHeader(buf);
+            if (null == header) {
+//                log.warn("找不到合法头部");
+                return null;
+            }
+
+            int index = 32;
+            long instruction = header.getInstruction();
+            InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get((int) instruction);
+            if (instructionBeanInfo == null) {
+//                log.warn("找不到指令id " + instruction + " 对应的协议bean");
+                return null;
+            }
+
+            AbstractInstruction instructionBean = instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
+            instructionBean.setHeader(header);
+
+            TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
+            for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
+                FieldBeanInfo value = next.getValue();
+
+                Method writeMethod = value.getWriteMethod();
+                AbstractField<?> field = value.getField();
+                int len = field.byte2type(buf, index);
+                if (len < 0) {
+//                    log.warn("解码字段出现错误");
+                    continue;
+                }
+                index += len;
+                if (writeMethod != null)
+                    writeMethod.invoke(instructionBean, field.getType());
+            }
+            return instructionBean;
+        } catch (Exception e) {
+//            log.error("解码出现错误");
+            e.printStackTrace();
         }
-        long instruction = header.getInstruction();
+
+        return null;
     }
 
     private static MessageHeader decodeHeader(byte[] buf) {
         if (buf.length < 32) {
-            System.out.println("buf.length error:" + buf.length);
+//            log.debug("buf.length error:" + buf.length);
             return null;
         }
 
         byte[] sign = subByte(buf, 0, 4);
         String signHeader = new String(sign);
         if (!"RPTP".equals(signHeader)) {
-            System.out.println("signHeader error:" + signHeader);
+//            log.warn("signHeader error:" + signHeader);
             return null;
         }
         MessageHeader header = new MessageHeader();
@@ -42,4 +89,7 @@ public class MessageDecode {
         System.arraycopy(src, begin, bs, 0, count);
         return bs;
     }
+
+    private HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
+//    private static final Logger log = LogManager.getLogger();
 }

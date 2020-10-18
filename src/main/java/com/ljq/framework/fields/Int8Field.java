@@ -2,11 +2,11 @@ package com.ljq.framework.fields;
 
 public class Int8Field extends AbstractField<Byte> {
     @Override
-    public int byte2type(byte[] buf) {
-        if (buf == null) {
+    public int byte2type(byte[] buf, int offset) {
+        if (buf == null || buf.length < offset) {
             return -1;
         }
-        type = buf[0];
+        type = buf[offset];
         return 1;
     }
 

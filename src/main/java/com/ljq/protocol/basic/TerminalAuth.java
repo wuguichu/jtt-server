@@ -5,6 +5,8 @@ import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
 
+import java.util.Arrays;
+
 @Instruction(BasicId.TERMINAL_AUTH)
 public class TerminalAuth extends AbstractInstruction {
     @Field(index = 0, type = FieldType.BCD, length = 6)
@@ -17,11 +19,11 @@ public class TerminalAuth extends AbstractInstruction {
     }
 
     @Field(index = 1, type = FieldType.RESERVE, length = 2)
-    public byte getReserve() {
+    public Byte getReserve() {
         return reserve;
     }
 
-    public void setReserve(byte reserve) {
+    public void setReserve(Byte reserve) {
         this.reserve = reserve;
     }
 
@@ -34,7 +36,17 @@ public class TerminalAuth extends AbstractInstruction {
         this.manufacturerId = manufacturerId;
     }
 
+    @Override
+    public String toString() {
+        return "TerminalAuth{" +
+                "bcdTerminalSerial=" + Arrays.toString(bcdTerminalSerial) +
+                ", reserve=" + reserve +
+                ", manufacturerId='" + manufacturerId + '\'' +
+                ", header=" + header +
+                '}';
+    }
+
     private byte[] bcdTerminalSerial;
-    private byte reserve;
+    private Byte reserve;
     private String manufacturerId;
 }
