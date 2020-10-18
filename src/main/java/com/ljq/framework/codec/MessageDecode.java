@@ -3,13 +3,15 @@ package com.ljq.framework.codec;
 import com.ljq.framework.fields.AbstractField;
 import com.ljq.framework.utils.BCDTransform;
 import com.ljq.framework.utils.ByteTransform;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MessageDecode<log> {
+public class MessageDecode {
 
     public void initial(String packagePath) {
         instructInfo = InstructionBeanHelper.getBeanInfo(packagePath);
@@ -19,7 +21,7 @@ public class MessageDecode<log> {
         try {
             MessageHeader header = decodeHeader(buf);
             if (null == header) {
-//                log.warn("找不到合法头部");
+                log.warn("找不到合法头部");
                 return null;
             }
 
@@ -27,7 +29,7 @@ public class MessageDecode<log> {
             long instruction = header.getInstruction();
             InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get((int) instruction);
             if (instructionBeanInfo == null) {
-//                log.warn("找不到指令id " + instruction + " 对应的协议bean");
+                log.warn("找不到指令id {} 对应的协议bean", instruction);
                 return null;
             }
 
@@ -42,7 +44,7 @@ public class MessageDecode<log> {
                 AbstractField<?> field = value.getField();
                 int len = field.byte2type(buf, index);
                 if (len < 0) {
-//                    log.warn("解码字段出现错误");
+                    log.warn("解码字段出现错误");
                     continue;
                 }
                 index += len;
@@ -51,7 +53,7 @@ public class MessageDecode<log> {
             }
             return instructionBean;
         } catch (Exception e) {
-//            log.error("解码出现错误");
+            log.error("解码出现错误");
             e.printStackTrace();
         }
 
@@ -60,14 +62,14 @@ public class MessageDecode<log> {
 
     private static MessageHeader decodeHeader(byte[] buf) {
         if (buf.length < 32) {
-//            log.debug("buf.length error:" + buf.length);
+            log.debug("buf.length error:{}", buf.length);
             return null;
         }
 
         byte[] sign = subByte(buf, 0, 4);
         String signHeader = new String(sign);
         if (!"RPTP".equals(signHeader)) {
-//            log.warn("signHeader error:" + signHeader);
+            log.warn("signHeader error:{}", signHeader);
             return null;
         }
         MessageHeader header = new MessageHeader();
@@ -91,5 +93,5 @@ public class MessageDecode<log> {
     }
 
     private HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
-//    private static final Logger log = LogManager.getLogger();
+    private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }
