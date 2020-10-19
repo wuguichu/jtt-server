@@ -17,11 +17,40 @@ import java.util.jar.JarFile;
 
 public final class InstructionBeanHelper {
 
+	public static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(String packagePath, HashMap<Class<?>, Integer> clazzMap) {
+        List<Class<?>> classList = getClassList(packagePath);
+
+        return getBeanInfo(classList, clazzMap);
+    }
+	
     public static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(String packagePath) {
         List<Class<?>> classList = getClassList(packagePath);
 
         return getBeanInfo(classList);
     }
+
+	
+	private static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(List<Class<?>> clazzList, HashMap<Class<?>, Integer> clazzMap) {
+		HashMap<Integer, InstructionBeanInfo<T>> infoHashMap = new HashMap<>();
+
+		for (Class<?> clazz : clazzList) {
+			Class<?> superclass = clazz.getSuperclass();
+			if (superclass != null && AbstractInstruction.class.isAssignableFrom(superclass)) {
+				Instruction instructAnno = clazz.getAnnotation(Instruction.class);
+				if (instructAnno != null && instructAnno.value() > 0) {
+					InstructionBeanInfo<T> beanInfo = new InstructionBeanInfo<>();
+
+					beanInfo.setClazz((Class<T>) clazz);
+					beanInfo.setFieldInfo(getClassifiedInfo(clazz));
+
+					infoHashMap.put(instructAnno.value(), beanInfo);
+					clazzMap.put(clazz, instructAnno.value());
+				}
+			}
+		}
+
+		return infoHashMap;
+	}
 
     private static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(List<Class<?>> clazzList) {
         HashMap<Integer, InstructionBeanInfo<T>> infoHashMap = new HashMap<>();

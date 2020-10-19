@@ -21,7 +21,10 @@ public class FixedStringField extends AbstractField<String> {
     public byte[] type2byte() {
         byte[] buffer = type.getBytes();
         byte[] buf = new byte[length];
-        System.arraycopy(buffer, 0, buf, 0, buffer.length);
+		if(buffer.length > length)
+        	System.arraycopy(buffer, 0, buf, 0, length);
+		else
+			System.arraycopy(buffer, 0, buf, length - buffer.length, buffer.length);
         return buf;
     }
 
