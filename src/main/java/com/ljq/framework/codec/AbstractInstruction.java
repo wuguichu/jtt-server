@@ -6,7 +6,7 @@ public abstract class AbstractInstruction {
 		header.setCurrentPack(0);
 		header.setTotalPack(0);
 	}
-	
+
     public MessageHeader getHeader() {
         return header;
     }

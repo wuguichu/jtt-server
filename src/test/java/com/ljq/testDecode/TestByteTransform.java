@@ -20,7 +20,7 @@ public class TestByteTransform {
 
 		short retByte1 = ByteTransform.byte2UnsignedByte(buf, 0);
         log.info("0x{} byte2UnsignedByte = {}", Integer.toHexString(buf[0] & 0xFF), retByte1);
-		
+
         short ret = ByteTransform.byte2Short(buf, 0);
         log.info("0x{}, 0x{} byte2Short = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF), ret);
 
@@ -28,15 +28,15 @@ public class TestByteTransform {
         log.info("0x{}, 0x{} byte2UnsignedShort = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF), ret1);
 
 		int retint = ByteTransform.byte2int(buf, 0);
-        log.info("0x{}, 0x{}, 0x{}, 0x{} byte2Int = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF), 
+        log.info("0x{}, 0x{}, 0x{}, 0x{} byte2Int = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF),
 			Integer.toHexString(buf[2] & 0xFF), Integer.toHexString(buf[3] & 0xFF), retint);
 
 		long retlong = ByteTransform.byte2Unsignedint(buf, 0);
-        log.info("0x{}, 0x{}, 0x{}, 0x{} byte2UnsignedInt = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF), 
+        log.info("0x{}, 0x{}, 0x{}, 0x{} byte2UnsignedInt = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF),
 			Integer.toHexString(buf[2] & 0xFF), Integer.toHexString(buf[3] & 0xFF), retlong);
 
 		long byte2Longret = ByteTransform.byte2Long(buf, 0);
-        log.info("0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{} byte2Long = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF), 
+        log.info("0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{}, 0x{} byte2Long = {}", Integer.toHexString(buf[0] & 0xFF), Integer.toHexString(buf[1] & 0xFF),
 			Integer.toHexString(buf[2] & 0xFF), Integer.toHexString(buf[3] & 0xFF),
 			Integer.toHexString(buf[4] & 0xFF), Integer.toHexString(buf[5] & 0xFF),
 			Integer.toHexString(buf[6] & 0xFF), Integer.toHexString(buf[7] & 0xFF), byte2Longret);

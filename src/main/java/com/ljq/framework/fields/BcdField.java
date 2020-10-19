@@ -1,9 +1,6 @@
 package com.ljq.framework.fields;
 
 public class BcdField extends AbstractField<byte[]> {
-    public BcdField() {
-    }
-
     @Override
     public void setLength(int length) {
         this.length = length;

@@ -2,7 +2,7 @@ package com.ljq.framework.fields;
 
 public enum FieldType {
     INT8(),
-	INT16(),	
+	INT16(),
 	INT32(),
 	INT64(),
 	UINT8(),

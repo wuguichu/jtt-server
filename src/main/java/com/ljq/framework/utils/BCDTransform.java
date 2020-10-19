@@ -45,7 +45,7 @@ public final class BCDTransform{
 	public static short byte2UnsignedByte(byte[] buf, int index){
 		return (short)(buf[index] & 0xff);
 	}
-	
+
 	public static int byte2UnsignedShort(byte[] buf, int index){
 		return (((buf[index] & 0xff) << 8) | (buf[index + 1] & 0xff));
 	}
