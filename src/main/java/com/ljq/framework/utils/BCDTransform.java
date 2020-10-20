@@ -3,19 +3,19 @@ package com.ljq.framework.utils;
 //import java.time.LocalDate;
 //import java.time.LocalDateTime;
 
-public final class BCDTransform{
-	public static String toString(byte[] bcd) {
-		return new String(toChars(bcd));
-	}
+public final class BCDTransform {
+    public static String toString(byte[] bcd) {
+        return new String(toChars(bcd));
+    }
 
-	public static char[] toChars(byte[] bcd) {
-		char[] chars = new char[bcd.length * 2];
-		for (int i = 0, j = 0; i < bcd.length; i++) {
-			chars[j++] = (char) (48 + (bcd[i] >> 4 & 0xf));
-			chars[j++] = (char) (48 + (bcd[i] & 0xf));
-		}
-		return chars;
-	}
+    public static char[] toChars(byte[] bcd) {
+        char[] chars = new char[bcd.length * 2];
+        for (int i = 0, j = 0; i < bcd.length; i++) {
+            chars[j++] = (char) (48 + (bcd[i] >> 4 & 0xf));
+            chars[j++] = (char) (48 + (bcd[i] & 0xf));
+        }
+        return chars;
+    }
 
     public static byte[] from(String str) {
         return from(str.toCharArray());
@@ -42,18 +42,18 @@ public final class BCDTransform{
     }
     */
 
-	public static short byte2UnsignedByte(byte[] buf, int index){
-		return (short)(buf[index] & 0xff);
-	}
+    public static short byte2UnsignedByte(byte[] buf, int index) {
+        return (short) (buf[index] & 0xff);
+    }
 
-	public static int byte2UnsignedShort(byte[] buf, int index){
-		return (((buf[index] & 0xff) << 8) | (buf[index + 1] & 0xff));
-	}
+    public static int byte2UnsignedShort(byte[] buf, int index) {
+        return (((buf[index] & 0xff) << 8) | (buf[index + 1] & 0xff));
+    }
 
-	public static long byte2Unsignedint(byte[] buf, int index){
-		return ((buf[index]     & 0xff) << 24) |
-               ((buf[index + 1] & 0xff) << 16) |
-               ((buf[index + 2] & 0xff) <<  8) |
-               ((buf[index + 3] & 0xff));
-	}
+    public static long byte2Unsignedint(byte[] buf, int index) {
+        return ((buf[index] & 0xff) << 24) |
+                ((buf[index + 1] & 0xff) << 16) |
+                ((buf[index + 2] & 0xff) << 8) |
+                ((buf[index + 3] & 0xff));
+    }
 }

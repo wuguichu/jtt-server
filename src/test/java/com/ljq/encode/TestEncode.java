@@ -4,8 +4,8 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.MessageDecode;
 import com.ljq.framework.codec.MessageEncode;
 import com.ljq.framework.codec.MessageHeader;
-import com.ljq.framework.utils.BCDTransform;
-import com.ljq.protocol.basic.*;
+import com.ljq.protocol.basic.CenterHeartBeat;
+import com.ljq.protocol.basic.TerminalAuth;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -34,15 +34,15 @@ public class TestEncode {
         System.out.println("decode = " + decode);
         TerminalAuth decodeTer = (TerminalAuth) decode;
 
-		System.out.println("===================");
-		CenterHeartBeat instructs = new CenterHeartBeat();
-		header = instructs.getHeader();
-		header.setSerialNo(16);
-		header.setTerminalNum(Serial);
-		System.out.println(instructs);
-		res = encoder.encode(instructs);
+        System.out.println("===================");
+        CenterHeartBeat instructs = new CenterHeartBeat();
+        header = instructs.getHeader();
+        header.setSerialNo(16);
+        header.setTerminalNum(Serial);
+        System.out.println(instructs);
+        res = encoder.encode(instructs);
         System.out.println("res = " + Arrays.toString(res));
-		decode = decoder.decode(res);
+        decode = decoder.decode(res);
         System.out.println("decode = " + decode);
     }
 }

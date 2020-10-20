@@ -34,6 +34,16 @@ public class TerminalResponse extends AbstractInstruction {
         this.serialNo = serialNo;
     }
 
+    @Override
+    public String toString() {
+        return "TerminalResponse{" +
+                "instruction=" + instruction +
+                ", errorCode=" + errorCode +
+                ", serialNo=" + serialNo +
+                ", header=" + header +
+                '}';
+    }
+
     private Long instruction;
     private Integer errorCode;
     private Short serialNo;

@@ -24,7 +24,16 @@ public class TerminalDeviceInfo extends AbstractInstruction {
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
-	
+
+    @Override
+    public String toString() {
+        return "TerminalDeviceInfo{" +
+                "carLicense='" + carLicense + '\'' +
+                ", deviceType='" + deviceType + '\'' +
+                ", header=" + header +
+                '}';
+    }
+
     private String carLicense;
     private String deviceType;
 }

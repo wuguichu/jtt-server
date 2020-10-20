@@ -64,7 +64,7 @@ public class MessageEncode {
                 System.arraycopy(indexBuf, 0, buf, offset, indexBuf.length);
                 offset += indexBuf.length;
             }
-			System.arraycopy("RPTP".getBytes(), 0, buf, offset, 4);
+            System.arraycopy("RPTP".getBytes(), 0, buf, offset, 4);
             return buf;
         } catch (Exception e) {
             log.error("编码出现错误");
@@ -84,13 +84,12 @@ public class MessageEncode {
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getTotalPack()), 0, buf, 12, 4);
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getCurrentPack()), 0, buf, 16, 4);
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getInstruction()), 0, buf, 20, 4);
-		if(header.getTerminalNum() != null)
-		{
-			if(header.getTerminalNum().length > 6)
-				System.arraycopy(header.getTerminalNum(), 0, buf, 24, 6);
-			else
-				System.arraycopy(header.getTerminalNum(), 0, buf, 30 - header.getTerminalNum().length , header.getTerminalNum().length);
-		}
+        if (header.getTerminalNum() != null) {
+            if (header.getTerminalNum().length > 6)
+                System.arraycopy(header.getTerminalNum(), 0, buf, 24, 6);
+            else
+                System.arraycopy(header.getTerminalNum(), 0, buf, 30 - header.getTerminalNum().length, header.getTerminalNum().length);
+        }
         // reserve 2
 
         return buf;

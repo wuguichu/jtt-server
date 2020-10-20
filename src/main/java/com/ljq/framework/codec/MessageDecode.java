@@ -1,7 +1,6 @@
 package com.ljq.framework.codec;
 
 import com.ljq.framework.fields.AbstractField;
-import com.ljq.framework.utils.BCDTransform;
 import com.ljq.framework.utils.ByteTransform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +24,10 @@ public class MessageDecode {
                 return null;
             }
 
-			if(buf.length < header.getPackageLen() + 32 + 4){
-				log.warn("length too small {} {}", buf.length, header.getPackageLen());
+            if (buf.length < header.getPackageLen() + 32 + 4) {
+                log.warn("length too small {} {}", buf.length, header.getPackageLen());
                 return null;
-			}
+            }
 
             int index = 32;
             long instruction = header.getInstruction();
@@ -57,17 +56,17 @@ public class MessageDecode {
                     writeMethod.invoke(instructionBean, obj);
             }
 
-			if(index != header.getPackageLen() + 32){
-				log.error("length error {} {}", index, header.getPackageLen());
-				return null;
-			}
-			byte[] sign = subByte(buf, index, 4);
-        	String signTail = new String(sign);
-			if(!"RPTP".equals(signTail)){
-				log.error("signTail error {}", signTail);
-				return null;
-			}
-			
+            if (index != header.getPackageLen() + 32) {
+                log.error("length error {} {}", index, header.getPackageLen());
+                return null;
+            }
+            byte[] sign = subByte(buf, index, 4);
+            String signTail = new String(sign);
+            if (!"RPTP".equals(signTail)) {
+                log.error("signTail error {}", signTail);
+                return null;
+            }
+
             return instructionBean;
         } catch (Exception e) {
             log.error("解码出现错误");

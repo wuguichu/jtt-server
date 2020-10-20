@@ -34,6 +34,16 @@ public class CenterResponse extends AbstractInstruction {
         this.serialNo = serialNo;
     }
 
+    @Override
+    public String toString() {
+        return "CenterResponse{" +
+                "instruction=" + instruction +
+                ", errorCode=" + errorCode +
+                ", serialNo=" + serialNo +
+                ", header=" + header +
+                '}';
+    }
+
     private Long instruction;
     private Integer errorCode;
     private Short serialNo;
