@@ -40,18 +40,19 @@ public class MessageDecode {
             AbstractInstruction instructionBean = instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
             instructionBean.setHeader(header);
 
+            int[] length = new int[1];
             TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
             for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
                 FieldBeanInfo value = next.getValue();
 
                 Method writeMethod = value.getWriteMethod();
                 AbstractField<?> field = value.getField();
-                Object obj = field.getValue(buf, index);
+                Object obj = field.getValue(buf, index, length);
                 if (obj == null) {
                     log.error("解码字段出现错误");
                     return null;
                 }
-                index += field.getLength();
+                index += length[0];
                 if (writeMethod != null)
                     writeMethod.invoke(instructionBean, obj);
             }

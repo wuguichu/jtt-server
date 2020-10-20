@@ -4,15 +4,11 @@ import com.ljq.framework.utils.ByteTransform;
 
 public class Int8Field extends AbstractField<Byte> {
     @Override
-    public int getLength() {
-        return 1;
-    }
-
-    @Override
-    public Byte getValue(byte[] buf, int offset) {
-        if (buf == null || buf.length < offset + 1) {
+    public Byte getValue(byte[] buf, int offset, int[] retLength) {
+        if (buf == null || buf.length < offset + 1 || retLength == null) {
             return null;
         }
+        retLength[0] = 1;
         return ByteTransform.byte2Byte(buf, offset);
     }
 

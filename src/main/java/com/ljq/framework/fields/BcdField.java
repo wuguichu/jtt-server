@@ -7,18 +7,14 @@ public class BcdField extends AbstractField<byte[]> {
     }
 
     @Override
-    public int getLength() {
-        return length;
-    }
-
-    @Override
-    public byte[] getValue(byte[] buf, int offset) {
-        if (buf == null || buf.length < offset + length) {
+    public byte[] getValue(byte[] buf, int offset, int[] retLength) {
+        if (buf == null || buf.length < offset + length || retLength == null) {
             return null;
         }
 
         byte[] buffer = new byte[length];
         System.arraycopy(buf, offset, buffer, 0, length);
+        retLength[0] = length;
         return buffer;
     }
 

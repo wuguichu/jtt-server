@@ -7,17 +7,13 @@ public class FixedStringField extends AbstractField<String> {
     }
 
     @Override
-    public int getLength() {
-        return length;
-    }
-
-    @Override
-    public String getValue(byte[] buf, int offset) {
-        if (buf == null || buf.length < offset + length) {
+    public String getValue(byte[] buf, int offset, int[] retLength) {
+        if (buf == null || buf.length < offset + length || retLength == null) {
             return null;
         }
         byte[] buffer = new byte[length];
         System.arraycopy(buf, offset, buffer, 0, length);
+        retLength[0] = length;
         return new String(buffer);
     }
 

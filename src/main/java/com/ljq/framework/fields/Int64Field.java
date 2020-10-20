@@ -4,15 +4,11 @@ import com.ljq.framework.utils.ByteTransform;
 
 public class Int64Field extends AbstractField<Long> {
     @Override
-    public int getLength() {
-        return 8;
-    }
-
-    @Override
-    public Long getValue(byte[] buf, int offset) {
-        if (buf == null || buf.length < offset + 8) {
+    public Long getValue(byte[] buf, int offset, int[] retLength) {
+        if (buf == null || buf.length < offset + 8 || retLength == null) {
             return null;
         }
+        retLength[0] = 8;
         return ByteTransform.byte2Long(buf, offset);
     }
 

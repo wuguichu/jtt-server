@@ -47,7 +47,7 @@ public class MessageEncode {
                     log.error("编码字段出现错误");
                     return null;
                 }
-                len += field.getLength();
+                len += indexBuf.length;
                 bufList.add(indexBuf);
                 if (len > 1024) {
                     log.error("编码超出长度，请分包");

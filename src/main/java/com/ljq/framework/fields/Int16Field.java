@@ -4,15 +4,11 @@ import com.ljq.framework.utils.ByteTransform;
 
 public class Int16Field extends AbstractField<Short> {
     @Override
-    public int getLength() {
-        return 2;
-    }
-
-    @Override
-    public Short getValue(byte[] buf, int offset) {
-        if (buf == null || buf.length < offset + 2) {
+    public Short getValue(byte[] buf, int offset, int[] retLength) {
+        if (buf == null || buf.length < offset + 2 || retLength == null) {
             return null;
         }
+        retLength[0] = 2;
         return ByteTransform.byte2Short(buf, offset);
     }
 
