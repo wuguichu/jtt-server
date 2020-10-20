@@ -42,13 +42,12 @@ public class MessageEncode {
                     log.error("协议bean没有readMethod");
                     return null;
                 }
-                field.setType(readMethod.invoke(instruct));
-                byte[] indexBuf = field.type2byte();
+                byte[] indexBuf = field.getByteArray(readMethod.invoke(instruct));
                 if (indexBuf == null) {
                     log.error("编码字段出现错误");
                     return null;
                 }
-                len += indexBuf.length;
+                len += field.getLength();
                 bufList.add(indexBuf);
                 if (len > 1024) {
                     log.error("编码超出长度，请分包");
@@ -58,13 +57,14 @@ public class MessageEncode {
 
             header.setPackageLen(len);
             byte[] headerBuf = encodeHeader(header);
-            byte[] buf = new byte[headerBuf.length + len];
+            byte[] buf = new byte[headerBuf.length + len + 4];
             System.arraycopy(headerBuf, 0, buf, 0, headerBuf.length);
             int offset = headerBuf.length;
             for (byte[] indexBuf : bufList) {
                 System.arraycopy(indexBuf, 0, buf, offset, indexBuf.length);
                 offset += indexBuf.length;
             }
+			System.arraycopy("RPTP".getBytes(), 0, buf, offset, 4);
             return buf;
         } catch (Exception e) {
             log.error("编码出现错误");
@@ -84,7 +84,13 @@ public class MessageEncode {
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getTotalPack()), 0, buf, 12, 4);
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getCurrentPack()), 0, buf, 16, 4);
         System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getInstruction()), 0, buf, 20, 4);
-        System.arraycopy(header.getTerminalNum().getBytes(), 0, buf, 24, 6);
+		if(header.getTerminalNum() != null)
+		{
+			if(header.getTerminalNum().length > 6)
+				System.arraycopy(header.getTerminalNum(), 0, buf, 24, 6);
+			else
+				System.arraycopy(header.getTerminalNum(), 0, buf, 30 - header.getTerminalNum().length , header.getTerminalNum().length);
+		}
         // reserve 2
 
         return buf;

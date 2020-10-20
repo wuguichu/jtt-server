@@ -6,27 +6,34 @@ public class FixedStringField extends AbstractField<String> {
         this.length = length;
     }
 
-    @Override
-    public int byte2type(byte[] buf, int offset) {
-        if (buf.length < length + offset) {
-            return -1;
+	@Override
+    public int getLength(){return length;}
+
+	@Override
+	public String getValue(byte[] buf,int offset){
+		if (buf == null || buf.length < offset + length) {
+            return null;
         }
         byte[] buffer = new byte[length];
         System.arraycopy(buf, offset, buffer, 0, length);
-        type = new String(buffer);
-        return length;
-    }
+        return new String(buffer);
+	}
 
-    @Override
-    public byte[] type2byte() {
-        byte[] buffer = type.getBytes();
-        byte[] buf = new byte[length];
+	@Override
+	public byte[] getByteArray(Object type){
+		if(!(type instanceof String)){
+            return null;
+        }
+
+		String value = (String)type;
+		byte[] buffer = value.getBytes();
+		byte[] buf = new byte[length];
 		if(buffer.length > length)
         	System.arraycopy(buffer, 0, buf, 0, length);
 		else
 			System.arraycopy(buffer, 0, buf, length - buffer.length, buffer.length);
         return buf;
-    }
+	}
 
     private int length;
 }

@@ -25,6 +25,11 @@ public class MessageDecode {
                 return null;
             }
 
+			if(buf.length < header.getPackageLen() + 32 + 4){
+				log.warn("length too small {} {}", buf.length, header.getPackageLen());
+                return null;
+			}
+
             int index = 32;
             long instruction = header.getInstruction();
             InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get((int) instruction);
@@ -42,15 +47,27 @@ public class MessageDecode {
 
                 Method writeMethod = value.getWriteMethod();
                 AbstractField<?> field = value.getField();
-                int len = field.byte2type(buf, index);
-                if (len < 0) {
-                    log.warn("解码字段出现错误");
-                    continue;
+                Object obj = field.getValue(buf, index);
+                if (obj == null) {
+                    log.error("解码字段出现错误");
+                    return null;
                 }
-                index += len;
+                index += field.getLength();
                 if (writeMethod != null)
-                    writeMethod.invoke(instructionBean, field.getType());
+                    writeMethod.invoke(instructionBean, obj);
             }
+
+			if(index != header.getPackageLen() + 32){
+				log.error("length error {} {}", index, header.getPackageLen());
+				return null;
+			}
+			byte[] sign = subByte(buf, index, 4);
+        	String signTail = new String(sign);
+			if(!"RPTP".equals(signTail)){
+				log.error("signTail error {}", signTail);
+				return null;
+			}
+			
             return instructionBean;
         } catch (Exception e) {
             log.error("解码出现错误");
@@ -78,8 +95,7 @@ public class MessageDecode {
         header.setTotalPack(ByteTransform.byte2Unsignedint(buf, 12));
         header.setCurrentPack(ByteTransform.byte2Unsignedint(buf, 16));
         header.setInstruction(ByteTransform.byte2Unsignedint(buf, 20));
-        byte[] terminalNum = subByte(buf, 24, 6);
-        header.setTerminalNum(BCDTransform.toString(terminalNum));
+        header.setTerminalNum(subByte(buf, 24, 6));
 
         System.out.println(header);
 

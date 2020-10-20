@@ -5,7 +5,7 @@ import com.ljq.framework.codec.MessageDecode;
 import com.ljq.framework.codec.MessageEncode;
 import com.ljq.framework.codec.MessageHeader;
 import com.ljq.framework.utils.BCDTransform;
-import com.ljq.protocol.basic.TerminalAuth;
+import com.ljq.protocol.basic.*;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -17,12 +17,12 @@ public class TestEncode {
         encoder.initial("com.ljq.protocol.basic");
         TerminalAuth instruct = new TerminalAuth();
 
-        byte[] Serial = {1, 2, 3, 4, 5, 6};
+        byte[] Serial = {1, 2, 8, 1, 2, 8, 1, 2, 8};
         MessageHeader header = instruct.getHeader();
         header.setSerialNo(15);
-        header.setTerminalNum("123456789012");
+        header.setTerminalNum(Serial);
         instruct.setBcdTerminalSerial(Serial);
-        instruct.setManufacturerId("facturerIdfacturerIdID");
+        instruct.setManufacturerId("facturerIdfacturerIdfacturerIdfacturerId");
         System.out.println(instruct);
 
         byte[] res = encoder.encode(instruct);
@@ -33,7 +33,16 @@ public class TestEncode {
         AbstractInstruction decode = decoder.decode(res);
         System.out.println("decode = " + decode);
         TerminalAuth decodeTer = (TerminalAuth) decode;
-        System.out.println(decode.getHeader().getTerminalNum());
-        System.out.println(BCDTransform.toString(decodeTer.getBcdTerminalSerial()));
+
+		System.out.println("===================");
+		CenterHeartBeat instructs = new CenterHeartBeat();
+		header = instructs.getHeader();
+		header.setSerialNo(16);
+		header.setTerminalNum(Serial);
+		System.out.println(instructs);
+		res = encoder.encode(instructs);
+        System.out.println("res = " + Arrays.toString(res));
+		decode = decoder.decode(res);
+        System.out.println("decode = " + decode);
     }
 }

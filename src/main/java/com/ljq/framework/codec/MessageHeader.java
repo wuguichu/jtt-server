@@ -1,5 +1,7 @@
 package com.ljq.framework.codec;
 
+import java.util.Arrays;
+
 public class MessageHeader{
 	public int getSerialNo() {
 		return serialNo;
@@ -41,11 +43,11 @@ public class MessageHeader{
 		this.instruction = instruction;
 	}
 
-	public String getTerminalNum() {
+	public byte[] getTerminalNum() {
 		return terminalNum;
 	}
 
-	public void setTerminalNum(String terminalNum) {
+	public void setTerminalNum(byte[] terminalNum) {
 		this.terminalNum = terminalNum;
 	}
 
@@ -57,7 +59,7 @@ public class MessageHeader{
 				", totalPack=" + totalPack +
 				", currentPack=" + currentPack +
 				", instruction=" + instruction +
-				", terminalNum='" + terminalNum + '\'' +
+				", terminalNum='" + Arrays.toString(terminalNum) + '\'' +
 				'}';
 	}
 
@@ -66,5 +68,5 @@ public class MessageHeader{
 	private long totalPack;
 	private long currentPack;
 	private long instruction;
-	private String terminalNum;
+	private byte[] terminalNum;	// byte[6]
 }

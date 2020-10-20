@@ -6,18 +6,22 @@ public class ReserveField extends AbstractField<Byte> {
         this.length = length;
     }
 
-    @Override
-    public int byte2type(byte[] buf, int offset) {
-        if (buf.length < length + offset) {
-            return -1;
-        }
-        return length;
-    }
+	@Override
+    public int getLength(){return length;}
 
-    @Override
-    public byte[] type2byte() {
+	@Override
+	public Byte getValue(byte[] buf,int offset){
+		if (buf == null || buf.length < offset + length) {
+            return null;
+        }
+
+        return 0;
+	}
+
+	@Override
+	public byte[] getByteArray(Object type){
         return new byte[length];
-    }
+	}
 
     private int length;
 }

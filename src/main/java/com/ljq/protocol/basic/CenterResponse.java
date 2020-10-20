@@ -5,10 +5,8 @@ import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
 
-import java.util.Arrays;
-
-@Instruction(BasicId.CENTER_REPONSE)
-public class CenterReponse extends AbstractInstruction {
+@Instruction(BasicId.CENTER_RESPONSE)
+public class CenterResponse extends AbstractInstruction {
     @Field(index = 0, type = FieldType.UINT32)
     public Long getInstruction() {
         return instruction;
