@@ -4,7 +4,9 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.MessageDecode;
 import com.ljq.framework.codec.MessageEncode;
 import com.ljq.framework.codec.MessageHeader;
-import com.ljq.protocol.basic.*;
+import com.ljq.protocol.basic.CenterHeartBeat;
+import com.ljq.protocol.basic.TerminalAuth;
+import com.ljq.protocol.basic.TerminalDeviceInfo;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -44,16 +46,16 @@ public class TestEncode {
         decode = decoder.decode(res);
         System.out.println("decode = " + decode);
 
-		System.out.println("===================");
+        System.out.println("===================");
         TerminalDeviceInfo instructTerminalDeviceInfo = new TerminalDeviceInfo();
         header = instructTerminalDeviceInfo.getHeader();
         header.setSerialNo(17);
         header.setTerminalNum(Serial);
-		instructTerminalDeviceInfo.setCarLicense("1234567890");
-		instructTerminalDeviceInfo.setDeviceType("lrl");
-		instructTerminalDeviceInfo.setAppVersion("v1.91");
-		instructTerminalDeviceInfo.setMcuVersion("v1.3");
-		instructTerminalDeviceInfo.setAiVersion("v1.4");
+        instructTerminalDeviceInfo.setCarLicense("1234567890");
+        instructTerminalDeviceInfo.setDeviceType("lrl");
+        instructTerminalDeviceInfo.setAppVersion("v1.91");
+        instructTerminalDeviceInfo.setMcuVersion("v1.3");
+        instructTerminalDeviceInfo.setAiVersion("v1.4");
         System.out.println(instructTerminalDeviceInfo);
         res = encoder.encode(instructTerminalDeviceInfo);
         System.out.println("res = " + Arrays.toString(res));

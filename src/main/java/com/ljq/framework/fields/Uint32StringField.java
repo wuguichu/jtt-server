@@ -8,14 +8,14 @@ public class Uint32StringField extends AbstractField<String> {
         if (buf == null || buf.length < offset + 4 || retLength == null) {
             return null;
         }
-		retLength[0] = ByteTransform.byte2int(buf, offset);
-		if(retLength[0] < 0 || buf.length < offset + 4 + retLength[0]){
+        retLength[0] = ByteTransform.byte2int(buf, offset);
+        if (retLength[0] < 0 || buf.length < offset + 4 + retLength[0]) {
             return null;
         }
         byte[] buffer = new byte[retLength[0]];
         System.arraycopy(buf, offset + 4, buffer, 0, retLength[0]);
-		retLength[0] += 4;
-        
+        retLength[0] += 4;
+
         return new String(buffer);
     }
 
