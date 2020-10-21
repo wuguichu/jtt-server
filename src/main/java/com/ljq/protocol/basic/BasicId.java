@@ -7,4 +7,5 @@ public interface BasicId {
     int TERMINAL_HEARTBEAT = 0x0107;
     int CENTER_HEARTBEAT = 0x0108;
     int VEHICLE_DEVICE_INFO = 0x1001;
+	int POWERON_SELF_CHECK_INFO = 0x1002;
 }

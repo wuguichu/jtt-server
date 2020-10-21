@@ -97,7 +97,7 @@ public class MessageDecode {
         header.setInstruction(ByteTransform.byte2Unsignedint(buf, 20));
         header.setTerminalNum(subByte(buf, 24, 6));
 
-        System.out.println(header);
+        log.debug(header);
 
         return header;
     }

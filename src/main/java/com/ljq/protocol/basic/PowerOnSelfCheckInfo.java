@@ -5,8 +5,8 @@ import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
 
-@Instruction(BasicId.VEHICLE_DEVICE_INFO)
-public class TerminalDeviceInfo extends AbstractInstruction {
+@Instruction(BasicId.POWERON_SELF_CHECK_INFO)
+public class PowerOnSelfCheckInfo extends AbstractInstruction {
     @Field(index = 0, type = FieldType.FIXEDSTRING, length = 12)
     public String getCarLicense() {
         return carLicense;

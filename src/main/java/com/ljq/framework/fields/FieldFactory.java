@@ -11,6 +11,7 @@ public final class FieldFactory {
             case UINT16 -> new Uint16Field();
             case UINT32 -> new Uint32Field();
             case FIXEDSTRING -> new FixedStringField();
+			case UINT32STRING -> new Uint32StringField();
             case BCD -> new BcdField();
             case RESERVE -> new ReserveField();
         };
