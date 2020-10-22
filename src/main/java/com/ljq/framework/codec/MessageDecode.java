@@ -2,6 +2,7 @@ package com.ljq.framework.codec;
 
 import com.ljq.framework.fields.AbstractField;
 import com.ljq.framework.utils.ByteTransform;
+import io.netty.buffer.ByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,11 +13,11 @@ import java.util.TreeMap;
 
 public class MessageDecode {
 
-    public void initial(String packagePath) {
+    public MessageDecode(String packagePath) {
         instructInfo = InstructionBeanHelper.getBeanInfo(packagePath);
     }
 
-    public AbstractInstruction decode(byte[] buf) {
+    public AbstractInstruction decode(ByteBuf buf) {
         try {
             MessageHeader header = decodeHeader(buf);
             if (null == header) {

@@ -29,8 +29,7 @@ public class TestEncode {
         byte[] res = encoder.encode(instruct);
         System.out.println("res = " + Arrays.toString(res));
 
-        MessageDecode decoder = new MessageDecode();
-        decoder.initial("com.ljq.protocol.basic");
+        MessageDecode decoder = new MessageDecode("com.ljq.protocol.basic");
         AbstractInstruction decode = decoder.decode(res);
         System.out.println("decode = " + decode);
         TerminalAuth decodeTer = (TerminalAuth) decode;

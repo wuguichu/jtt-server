@@ -8,8 +8,9 @@ import java.util.Scanner;
 public class TestTcpServer {
     @Test
     public void testTcpServer() {
+        // 52505450000f000000000000000000000000000000000108010208010208000052505450
         TcpServer tcpServer = new TcpServer();
-        //tcpServer.setPort(9106);
+        tcpServer.setPort(9106);
 
         tcpServer.start();
 

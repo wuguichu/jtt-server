@@ -2,7 +2,6 @@ package com.ljq.framework.netty;
 
 import com.ljq.framework.codec.MessageDecode;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -10,7 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioChannelOption;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
@@ -61,8 +59,9 @@ public class TcpServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) {
                         nioSocketChannel.pipeline()
                                 .addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS))
-                                .addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("RPTP".getBytes())))
-                                .addLast(new JttDecodeHander(new MessageDecode()));
+                                //.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("RPTP".getBytes())))
+                                .addLast(new JttDecodeHander(new MessageDecode("com.ljq.protocol.basic")))
+                                .addLast(new JttProtocolHander());
                     }
                 });
 

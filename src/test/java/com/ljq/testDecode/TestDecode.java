@@ -19,11 +19,10 @@ public class TestDecode {
 		logger.warn("test decode:" + args[0]);
 		logger.info("test decode:" + args[0]);
 		logger.error("test decode:" + args[0]);*/
-        MessageDecode decoder = new MessageDecode();
+        MessageDecode decoder = new MessageDecode("com.ljq.protocol.basic");
         byte[] res = {'R', 'P', 'T', 'P', 67, 125, 0, 0, 0, 1, 0, 0, 0, 0, 0, 10, 0, 0, 0, 3,
                 0, 0, 0, 1, 20, 1, 9, 2, 8, 5, 0, 0, 9, 2, 8, 5, 0, 0, 0, 0, 'c', 's', 'i', 'd', 'c', 's', 'i', 'd'
                 , 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd'};
-        decoder.initial("com.ljq.protocol.basic");
         AbstractInstruction decode = decoder.decode(res);
         System.out.println(decode);
     }

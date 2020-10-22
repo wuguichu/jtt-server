@@ -26,8 +26,13 @@ public class JttDecodeHander extends ByteToMessageDecoder {
                 hex = ByteBufUtil.hexDump(byteBuf, 0, 128);
             log.info("收到一帧数据报文: {}", hex);
         }
-        AbstractInstruction instruction = decoder.decode(byteBuf.array());
-        log.info(instruction);
+        byte[] bytes = new byte[byteBuf.readableBytes()];
+        byteBuf.getBytes(0, bytes);
+
+        log.debug(bytes);
+        AbstractInstruction instruction = decoder.decode(bytes);
+        log.debug(instruction);
+
         byteBuf.skipBytes(byteBuf.readableBytes());
     }
 
