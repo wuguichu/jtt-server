@@ -7,6 +7,7 @@ import com.ljq.framework.codec.MessageHeader;
 import com.ljq.protocol.basic.CenterHeartBeat;
 import com.ljq.protocol.basic.TerminalAuth;
 import com.ljq.protocol.basic.TerminalDeviceInfo;
+import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class TestEncode {
         System.out.println("res = " + Arrays.toString(res));
 
         MessageDecode decoder = new MessageDecode("com.ljq.protocol.basic");
-        AbstractInstruction decode = decoder.decode(res);
+        AbstractInstruction decode = decoder.decode(Unpooled.copiedBuffer(res));
         System.out.println("decode = " + decode);
         TerminalAuth decodeTer = (TerminalAuth) decode;
 
@@ -42,7 +43,7 @@ public class TestEncode {
         System.out.println(instructs);
         res = encoder.encode(instructs);
         System.out.println("res = " + Arrays.toString(res));
-        decode = decoder.decode(res);
+        decode = decoder.decode(Unpooled.copiedBuffer(res));
         System.out.println("decode = " + decode);
 
         System.out.println("===================");
@@ -58,7 +59,7 @@ public class TestEncode {
         System.out.println(instructTerminalDeviceInfo);
         res = encoder.encode(instructTerminalDeviceInfo);
         System.out.println("res = " + Arrays.toString(res));
-        decode = decoder.decode(res);
+        decode = decoder.decode(Unpooled.copiedBuffer(res));
         System.out.println("decode = " + decode);
     }
 }

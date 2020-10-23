@@ -1,15 +1,17 @@
 package com.ljq.framework.fields;
 
 import com.ljq.framework.utils.ByteTransform;
+import io.netty.buffer.ByteBuf;
 
 public class Int64Field extends AbstractField<Long> {
     @Override
-    public Long getValue(byte[] buf, int offset, int[] retLength) {
-        if (buf == null || buf.length < offset + 8 || retLength == null) {
+    public Long getValue(ByteBuf buf) {
+        if (buf == null || buf.readableBytes() < 8) {
             return null;
         }
-        retLength[0] = 8;
-        return ByteTransform.byte2Long(buf, offset);
+        long aLong = buf.getLong(buf.readerIndex());
+        buf.skipBytes(8);
+        return aLong;
     }
 
     @Override

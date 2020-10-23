@@ -1,5 +1,9 @@
 package com.ljq.framework.fields;
 
+import io.netty.buffer.ByteBuf;
+
+import java.nio.charset.Charset;
+
 public class FixedStringField extends AbstractField<String> {
     @Override
     public void setLength(int length) {
@@ -7,14 +11,13 @@ public class FixedStringField extends AbstractField<String> {
     }
 
     @Override
-    public String getValue(byte[] buf, int offset, int[] retLength) {
-        if (buf == null || buf.length < offset + length || retLength == null) {
+    public String getValue(ByteBuf buf) {
+        if (buf == null || buf.readableBytes() < length) {
             return null;
         }
-        byte[] buffer = new byte[length];
-        System.arraycopy(buf, offset, buffer, 0, length);
-        retLength[0] = length;
-        return new String(buffer);
+        String value = buf.toString(buf.readerIndex(), length, Charset.forName("gbk"));
+        buf.skipBytes(length);
+        return value;
     }
 
     @Override

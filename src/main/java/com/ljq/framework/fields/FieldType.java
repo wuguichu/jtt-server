@@ -9,7 +9,7 @@ public enum FieldType {
     UINT16(),
     UINT32(),
     FIXEDSTRING(),
-    UINT32STRING(),
+    INT32STRING(),
     BCD(),
     RESERVE();
 

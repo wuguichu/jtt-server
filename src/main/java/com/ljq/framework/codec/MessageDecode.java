@@ -1,12 +1,12 @@
 package com.ljq.framework.codec;
 
 import com.ljq.framework.fields.AbstractField;
-import com.ljq.framework.utils.ByteTransform;
 import io.netty.buffer.ByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,12 +25,12 @@ public class MessageDecode {
                 return null;
             }
 
-            if (buf.length < header.getPackageLen() + 32 + 4) {
-                log.warn("length too small {} {}", buf.length, header.getPackageLen());
+            if (buf.readableBytes() < header.getPackageLen() + 32 + 4) {
+                log.warn("length too small {} {}", buf.readableBytes(), header.getPackageLen());
                 return null;
             }
+            buf.skipBytes(32);
 
-            int index = 32;
             long instruction = header.getInstruction();
             InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get((int) instruction);
             if (instructionBeanInfo == null) {
@@ -41,33 +41,31 @@ public class MessageDecode {
             AbstractInstruction instructionBean = instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
             instructionBean.setHeader(header);
 
-            int[] length = new int[1];
             TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
             for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
                 FieldBeanInfo value = next.getValue();
 
                 Method writeMethod = value.getWriteMethod();
                 AbstractField<?> field = value.getField();
-                Object obj = field.getValue(buf, index, length);
+                Object obj = field.getValue(buf);
                 if (obj == null) {
                     log.error("解码字段出现错误");
                     return null;
                 }
-                index += length[0];
                 if (writeMethod != null)
                     writeMethod.invoke(instructionBean, obj);
             }
 
-            if (index != header.getPackageLen() + 32) {
-                log.error("length error {} {}", index, header.getPackageLen());
+            if (buf.readableBytes() < 4) {
+                log.error("tail length error  {}", buf.readableBytes());
                 return null;
             }
-            byte[] sign = subByte(buf, index, 4);
-            String signTail = new String(sign);
+            String signTail = buf.toString(buf.readerIndex(), 4, Charset.forName("gbk"));
             if (!"RPTP".equals(signTail)) {
                 log.error("signTail error {}", signTail);
                 return null;
             }
+            buf.skipBytes(4);
 
             return instructionBean;
         } catch (Exception e) {
@@ -78,37 +76,49 @@ public class MessageDecode {
         return null;
     }
 
-    private static MessageHeader decodeHeader(byte[] buf) {
-        if (buf.length < 32) {
-            log.debug("buf.length error:{}", buf.length);
+    private static MessageHeader decodeHeader(ByteBuf buf) {
+        /*找到RPTP*/
+        if (!findHeader(buf)) {
+            log.debug("can't find header");
             return null;
         }
-
-        byte[] sign = subByte(buf, 0, 4);
-        String signHeader = new String(sign);
-        if (!"RPTP".equals(signHeader)) {
-            log.warn("signHeader error:{}", signHeader);
+        if (buf.readableBytes() < 32) {
+            log.warn("length too small {}", buf.readableBytes());
             return null;
         }
         MessageHeader header = new MessageHeader();
-        header.setSerialNo(ByteTransform.byte2UnsignedShort(buf, 4));
-        header.setPackageLen(ByteTransform.byte2Unsignedint(buf, 8));
-        header.setTotalPack(ByteTransform.byte2Unsignedint(buf, 12));
-        header.setCurrentPack(ByteTransform.byte2Unsignedint(buf, 16));
-        header.setInstruction(ByteTransform.byte2Unsignedint(buf, 20));
-        header.setTerminalNum(subByte(buf, 24, 6));
+        byte[] terminalNum = new byte[6];
+        header.setSerialNo(buf.getUnsignedShort(buf.readerIndex() + 4));
+        // reserves 2byte
+        header.setPackageLen(buf.getUnsignedInt(buf.readerIndex() + 8));
+        header.setTotalPack(buf.getUnsignedInt(buf.readerIndex() + 12));
+        header.setCurrentPack(buf.getUnsignedInt(buf.readerIndex() + 16));
+        header.setInstruction(buf.getUnsignedInt(buf.readerIndex() + 20));
+        buf.getBytes(buf.readerIndex() + 24, terminalNum);
+        header.setTerminalNum(terminalNum);
+        // reserves 2byte
 
         log.debug(header);
 
         return header;
     }
 
-    private static byte[] subByte(byte[] src, int begin, int count) {
-        byte[] bs = new byte[count];
-        System.arraycopy(src, begin, bs, 0, count);
-        return bs;
+    private static boolean findHeader(ByteBuf buf) {
+        int index;
+        while (true) {
+            if ((index = buf.bytesBefore((byte) 'R')) < 0) {
+                buf.clear();
+                return false;
+            }
+            buf.skipBytes(index);
+            if (buf.readableBytes() < 4)
+                return false;
+            if ("RPTP".equals(buf.toString(buf.readerIndex(), 4, Charset.forName("gbk"))))
+                return true;
+            buf.skipBytes(1);
+        }
     }
 
-    private HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
+    private final HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
     private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }

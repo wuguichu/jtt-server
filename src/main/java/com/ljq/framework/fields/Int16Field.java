@@ -1,15 +1,19 @@
 package com.ljq.framework.fields;
 
 import com.ljq.framework.utils.ByteTransform;
+import io.netty.buffer.ByteBuf;
 
 public class Int16Field extends AbstractField<Short> {
     @Override
-    public Short getValue(byte[] buf, int offset, int[] retLength) {
-        if (buf == null || buf.length < offset + 2 || retLength == null) {
+    public Short getValue(ByteBuf buf) {
+        if (buf == null || buf.readableBytes() < 2) {
             return null;
         }
-        retLength[0] = 2;
-        return ByteTransform.byte2Short(buf, offset);
+
+        short aShort = buf.getShort(buf.readerIndex());
+        buf.skipBytes(2);
+
+        return aShort;
     }
 
     @Override

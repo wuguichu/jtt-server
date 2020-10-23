@@ -59,7 +59,6 @@ public class TcpServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) {
                         nioSocketChannel.pipeline()
                                 .addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS))
-                                //.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("RPTP".getBytes())))
                                 .addLast(new JttDecodeHander(new MessageDecode("com.ljq.protocol.basic")))
                                 .addLast(new JttProtocolHander());
                     }

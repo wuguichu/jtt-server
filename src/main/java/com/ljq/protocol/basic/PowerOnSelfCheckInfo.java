@@ -25,7 +25,7 @@ public class PowerOnSelfCheckInfo extends AbstractInstruction {
         this.deviceType = deviceType;
     }
 
-    @Field(index = 3, type = FieldType.UINT32STRING)
+    @Field(index = 3, type = FieldType.INT32STRING)
     public String getAppVersion() {
         return appVersion;
     }
@@ -34,7 +34,7 @@ public class PowerOnSelfCheckInfo extends AbstractInstruction {
         this.appVersion = appVersion;
     }
 
-    @Field(index = 5, type = FieldType.UINT32STRING)
+    @Field(index = 5, type = FieldType.INT32STRING)
     public String getMcuVersion() {
         return mcuVersion;
     }
@@ -43,7 +43,7 @@ public class PowerOnSelfCheckInfo extends AbstractInstruction {
         this.mcuVersion = mcuVersion;
     }
 
-    @Field(index = 7, type = FieldType.UINT32STRING)
+    @Field(index = 7, type = FieldType.INT32STRING)
     public String getAiVersion() {
         return aiVersion;
     }

@@ -2,6 +2,7 @@ package com.ljq.testDecode;//package com.ssh.framework.test;
 
 import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.MessageDecode;
+import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 public class TestDecode {
@@ -23,7 +24,7 @@ public class TestDecode {
         byte[] res = {'R', 'P', 'T', 'P', 67, 125, 0, 0, 0, 1, 0, 0, 0, 0, 0, 10, 0, 0, 0, 3,
                 0, 0, 0, 1, 20, 1, 9, 2, 8, 5, 0, 0, 9, 2, 8, 5, 0, 0, 0, 0, 'c', 's', 'i', 'd', 'c', 's', 'i', 'd'
                 , 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd', 'c', 's', 'i', 'd'};
-        AbstractInstruction decode = decoder.decode(res);
+        AbstractInstruction decode = decoder.decode(Unpooled.copiedBuffer(res));
         System.out.println(decode);
     }
 }

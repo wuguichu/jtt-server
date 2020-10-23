@@ -1,15 +1,17 @@
 package com.ljq.framework.fields;
 
 import com.ljq.framework.utils.ByteTransform;
+import io.netty.buffer.ByteBuf;
 
 public class Uint16Field extends AbstractField<Integer> {
     @Override
-    public Integer getValue(byte[] buf, int offset, int[] retLength) {
-        if (buf == null || buf.length < offset + 2 || retLength == null) {
+    public Integer getValue(ByteBuf buf) {
+        if (buf == null || buf.readableBytes() < 2) {
             return null;
         }
-        retLength[0] = 2;
-        return ByteTransform.byte2UnsignedShort(buf, offset);
+        int unsignedShort = buf.getUnsignedShort(buf.readerIndex());
+        buf.skipBytes(2);
+        return unsignedShort;
     }
 
     @Override
