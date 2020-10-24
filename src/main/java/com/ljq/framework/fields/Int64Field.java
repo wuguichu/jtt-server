@@ -9,7 +9,7 @@ public class Int64Field extends AbstractField<Long> {
         if (buf == null || buf.readableBytes() < 8) {
             return null;
         }
-        long aLong = buf.getLong(buf.readerIndex());
+        long aLong = buf.getLongLE(buf.readerIndex());
         buf.skipBytes(8);
         return aLong;
     }

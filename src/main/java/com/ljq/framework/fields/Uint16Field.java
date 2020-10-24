@@ -9,7 +9,7 @@ public class Uint16Field extends AbstractField<Integer> {
         if (buf == null || buf.readableBytes() < 2) {
             return null;
         }
-        int unsignedShort = buf.getUnsignedShort(buf.readerIndex());
+        int unsignedShort = buf.getUnsignedShortLE(buf.readerIndex());
         buf.skipBytes(2);
         return unsignedShort;
     }

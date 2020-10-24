@@ -9,7 +9,7 @@ public class Uint32Field extends AbstractField<Long> {
         if (buf == null || buf.readableBytes() < 4) {
             return null;
         }
-        long unsignedInt = buf.getUnsignedInt(buf.readerIndex());
+        long unsignedInt = buf.getUnsignedIntLE(buf.readerIndex());
         buf.skipBytes(4);
         return unsignedInt;
     }

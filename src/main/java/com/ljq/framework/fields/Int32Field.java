@@ -9,7 +9,7 @@ public class Int32Field extends AbstractField<Integer> {
         if (buf == null || buf.readableBytes() < 4) {
             return null;
         }
-        int anInt = buf.getInt(buf.readerIndex());
+        int anInt = buf.getIntLE(buf.readerIndex());
         buf.skipBytes(4);
         return anInt;
     }

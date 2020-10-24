@@ -25,7 +25,7 @@ public class MessageDecode {
                 return null;
             }
 
-            if (buf.readableBytes() < header.getPackageLen() + 32 + 4) {
+            if (buf.readableBytes() < header.getPackageLen() + 20 + 4) {
                 log.warn("length too small {} {}", buf.readableBytes(), header.getPackageLen());
                 return null;
             }
@@ -61,7 +61,7 @@ public class MessageDecode {
                 return null;
             }
             String signTail = buf.toString(buf.readerIndex(), 4, Charset.forName("gbk"));
-            if (!"RPTP".equals(signTail)) {
+            if (!"RTTP".equals(signTail)) {
                 log.error("signTail error {}", signTail);
                 return null;
             }
@@ -88,12 +88,12 @@ public class MessageDecode {
         }
         MessageHeader header = new MessageHeader();
         byte[] terminalNum = new byte[6];
-        header.setSerialNo(buf.getUnsignedShort(buf.readerIndex() + 4));
+        header.setSerialNo(buf.getUnsignedShortLE(buf.readerIndex() + 4));
         // reserves 2byte
-        header.setPackageLen(buf.getUnsignedInt(buf.readerIndex() + 8));
-        header.setTotalPack(buf.getUnsignedInt(buf.readerIndex() + 12));
-        header.setCurrentPack(buf.getUnsignedInt(buf.readerIndex() + 16));
-        header.setInstruction(buf.getUnsignedInt(buf.readerIndex() + 20));
+        header.setPackageLen(buf.getUnsignedIntLE(buf.readerIndex() + 8));
+        header.setTotalPack(buf.getUnsignedIntLE(buf.readerIndex() + 12));
+        header.setCurrentPack(buf.getUnsignedIntLE(buf.readerIndex() + 16));
+        header.setInstruction(buf.getUnsignedIntLE(buf.readerIndex() + 20));
         buf.getBytes(buf.readerIndex() + 24, terminalNum);
         header.setTerminalNum(terminalNum);
         // reserves 2byte

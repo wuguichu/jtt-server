@@ -10,7 +10,7 @@ public class Int16Field extends AbstractField<Short> {
             return null;
         }
 
-        short aShort = buf.getShort(buf.readerIndex());
+        short aShort = buf.getShortLE(buf.readerIndex());
         buf.skipBytes(2);
 
         return aShort;

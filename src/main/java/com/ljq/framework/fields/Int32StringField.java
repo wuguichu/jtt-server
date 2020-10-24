@@ -11,7 +11,7 @@ public class Int32StringField extends AbstractField<String> {
         if (buf == null || buf.readableBytes() < 4) {
             return null;
         }
-        int length = buf.getInt(buf.readerIndex());
+        int length = buf.getIntLE(buf.readerIndex());
         buf.skipBytes(4);
         if (length == 0) {
             return "";
