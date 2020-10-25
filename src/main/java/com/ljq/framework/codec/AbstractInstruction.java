@@ -4,7 +4,7 @@ public abstract class AbstractInstruction {
     public AbstractInstruction() {
         header = new MessageHeader();
         header.setCurrentPack(0);
-        header.setTotalPack(0);
+        header.setTotalPack(1);
     }
 
     public MessageHeader getHeader() {

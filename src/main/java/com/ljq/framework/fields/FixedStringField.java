@@ -1,13 +1,12 @@
 package com.ljq.framework.fields;
 
+import com.ljq.framework.codec.CommonDefine;
 import io.netty.buffer.ByteBuf;
-
-import java.nio.charset.Charset;
 
 public class FixedStringField extends AbstractField<String> {
     @Override
     public void setLength(int length) {
-        this.length = length;
+        this.length = Math.max(length, 0);
     }
 
     @Override
@@ -15,25 +14,24 @@ public class FixedStringField extends AbstractField<String> {
         if (buf == null || buf.readableBytes() < length) {
             return null;
         }
-        String value = buf.toString(buf.readerIndex(), length, Charset.forName("gbk"));
+        String value = buf.toString(buf.readerIndex(), length, CommonDefine.codecCharset);
         buf.skipBytes(length);
         return value;
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof String)) {
-            return null;
-        }
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof String) || buf == null)
+            return;
 
         String value = (String) type;
-        byte[] buffer = value.getBytes();
-        byte[] buf = new byte[length];
+        byte[] buffer = value.getBytes(CommonDefine.codecCharset);
         if (buffer.length > length)
-            System.arraycopy(buffer, 0, buf, 0, length);
-        else
-            System.arraycopy(buffer, 0, buf, length - buffer.length, buffer.length);
-        return buf;
+            buf.writeBytes(buffer, 0, length);
+        else {
+            buf.writeBytes(buffer);
+            buf.writeZero(length - buffer.length);
+        }
     }
 
     private int length;

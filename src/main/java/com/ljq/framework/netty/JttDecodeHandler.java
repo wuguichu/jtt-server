@@ -11,20 +11,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class JttDecodeHander extends ByteToMessageDecoder {
-    public JttDecodeHander(MessageDecode decoder) {
+public class JttDecodeHandler extends ByteToMessageDecoder {
+    public JttDecodeHandler(MessageDecode decoder) {
         this.decoder = decoder;
     }
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
-        if (log.isInfoEnabled()) {
+        if (log.isDebugEnabled()) {
             String hex;
             if (byteBuf.readableBytes() < 1024)
                 hex = ByteBufUtil.hexDump(byteBuf);
             else
                 hex = ByteBufUtil.hexDump(byteBuf, 0, 128);
-            log.info("收到一帧数据报文: {}", hex);
+            log.debug(">>>>>收到总报文[ip={}],hex={}", channelHandlerContext.channel().remoteAddress(), hex);
         }
         AbstractInstruction instruction = decoder.decode(byteBuf);
         if (instruction != null) {

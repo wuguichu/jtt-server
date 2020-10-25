@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 public class ReserveField extends AbstractField<Byte> {
     @Override
     public void setLength(int length) {
-        this.length = length;
+        this.length = Math.max(length, 0);
     }
 
     @Override
@@ -18,8 +18,11 @@ public class ReserveField extends AbstractField<Byte> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        return new byte[length];
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (buf == null)
+            return;
+
+        buf.writeZero(length);
     }
 
     private int length;

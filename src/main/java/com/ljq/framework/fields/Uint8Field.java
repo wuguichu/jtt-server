@@ -1,6 +1,5 @@
 package com.ljq.framework.fields;
 
-import com.ljq.framework.utils.ByteTransform;
 import io.netty.buffer.ByteBuf;
 
 public class Uint8Field extends AbstractField<Short> {
@@ -15,10 +14,10 @@ public class Uint8Field extends AbstractField<Short> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof Short)) {
-            return null;
-        }
-        return ByteTransform.unsignedByte2byteArray((Short) type);
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof Short) || buf == null)
+            return;
+
+        buf.writeByte((Short) type);
     }
 }

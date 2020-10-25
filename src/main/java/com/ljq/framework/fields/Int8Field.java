@@ -1,6 +1,5 @@
 package com.ljq.framework.fields;
 
-import com.ljq.framework.utils.ByteTransform;
 import io.netty.buffer.ByteBuf;
 
 public class Int8Field extends AbstractField<Byte> {
@@ -15,10 +14,10 @@ public class Int8Field extends AbstractField<Byte> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof Byte)) {
-            return null;
-        }
-        return ByteTransform.byte2byteArray((Byte) type);
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof Byte) || buf == null)
+            return;
+
+        buf.writeByte((Byte) type);
     }
 }

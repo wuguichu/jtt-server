@@ -1,21 +1,23 @@
 package com.ljq.framework.codec;
 
 import com.ljq.framework.fields.AbstractField;
-import com.ljq.framework.utils.ByteTransform;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class MessageEncode {
-
-    public void initial(String packagePath) {
+    public MessageEncode(String packagePath) {
         clazzMap = new HashMap<>();
         instructInfo = InstructionBeanHelper.getBeanInfo(packagePath, clazzMap);
     }
 
-    public byte[] encode(AbstractInstruction instruct) {
+    public ByteBuf encode(AbstractInstruction instruct) {
         Integer instruction = clazzMap.get(instruct.getClass().getName());
         MessageHeader header = instruct.getHeader();
         if (instruction == null) {
@@ -29,8 +31,8 @@ public class MessageEncode {
             return null;
         }
         try {
-            int len = 0;
-            List<byte[]> bufList = new LinkedList<>();
+            ByteBuf buf = Unpooled.buffer(64, 1024);
+            encodeHeader(header, buf);
 
             TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
             for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
@@ -42,29 +44,11 @@ public class MessageEncode {
                     log.error("协议bean没有readMethod");
                     return null;
                 }
-                byte[] indexBuf = field.getByteArray(readMethod.invoke(instruct));
-                if (indexBuf == null) {
-                    log.error("编码字段出现错误");
-                    return null;
-                }
-                len += indexBuf.length;
-                bufList.add(indexBuf);
-                if (len > 1024) {
-                    log.error("编码超出长度，请分包");
-                    return null;
-                }
+                field.getByteArray(readMethod.invoke(instruct), buf);
             }
 
-            header.setPackageLen(len);
-            byte[] headerBuf = encodeHeader(header);
-            byte[] buf = new byte[headerBuf.length + len + 4];
-            System.arraycopy(headerBuf, 0, buf, 0, headerBuf.length);
-            int offset = headerBuf.length;
-            for (byte[] indexBuf : bufList) {
-                System.arraycopy(indexBuf, 0, buf, offset, indexBuf.length);
-                offset += indexBuf.length;
-            }
-            System.arraycopy("RPTP".getBytes(), 0, buf, offset, 4);
+            buf.setIntLE(buf.readerIndex() + 8, buf.readableBytes() - 20); // 设置header的包长字段
+            buf.writeBytes("RTTP".getBytes(CommonDefine.codecCharset));
             return buf;
         } catch (Exception e) {
             log.error("编码出现错误");
@@ -74,28 +58,27 @@ public class MessageEncode {
         return null;
     }
 
-    private static byte[] encodeHeader(MessageHeader header) {
-        byte[] buf = new byte[32];
-
-        System.arraycopy("RPTP".getBytes(), 0, buf, 0, 4);
-        System.arraycopy(ByteTransform.unsignedShort2byteArray(header.getSerialNo()), 0, buf, 4, 2);
-        // reserve 2
-        System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getPackageLen()), 0, buf, 8, 4);
-        System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getTotalPack()), 0, buf, 12, 4);
-        System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getCurrentPack()), 0, buf, 16, 4);
-        System.arraycopy(ByteTransform.unsignedInt2byteArray(header.getInstruction()), 0, buf, 20, 4);
+    private static void encodeHeader(MessageHeader header, ByteBuf buf) {
+        buf.writeBytes("RPTP".getBytes(CommonDefine.codecCharset));
+        buf.writeShortLE(header.getSerialNo());
+        buf.writeZero(2);   // reserve 2
+        buf.writeIntLE((int) header.getPackageLen());
+        buf.writeIntLE((int) header.getTotalPack());
+        buf.writeIntLE((int) header.getCurrentPack());
+        buf.writeIntLE((int) header.getInstruction());
         if (header.getTerminalNum() != null) {
             if (header.getTerminalNum().length > 6)
-                System.arraycopy(header.getTerminalNum(), 0, buf, 24, 6);
-            else
-                System.arraycopy(header.getTerminalNum(), 0, buf, 30 - header.getTerminalNum().length, header.getTerminalNum().length);
-        }
-        // reserve 2
-
-        return buf;
+                buf.writeBytes(header.getTerminalNum(), 0, 6);
+            else {
+                buf.writeBytes(header.getTerminalNum());
+                buf.writeZero(6 - header.getTerminalNum().length);
+            }
+        } else
+            buf.writeZero(6);
+        buf.writeZero(2);   // reserve 2
     }
 
-    private HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
-    private HashMap<String, Integer> clazzMap;
+    private final HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
+    private final HashMap<String, Integer> clazzMap;
     private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }

@@ -1,6 +1,5 @@
 package com.ljq.framework.fields;
 
-import com.ljq.framework.utils.ByteTransform;
 import io.netty.buffer.ByteBuf;
 
 public class Int32Field extends AbstractField<Integer> {
@@ -15,10 +14,10 @@ public class Int32Field extends AbstractField<Integer> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof Integer)) {
-            return null;
-        }
-        return ByteTransform.int2byteArray((Integer) type);
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof Integer) || buf == null)
+            return;
+
+        buf.writeIntLE((Integer) type);
     }
 }

@@ -1,4 +1,4 @@
-package com.ljq.testDecode;//package com.ssh.framework.test;
+package com.ljq.testDecode;
 
 import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.MessageDecode;

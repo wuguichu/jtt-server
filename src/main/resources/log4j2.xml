@@ -40,7 +40,7 @@
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.mybatis" level="INFO"/>
-        <root level="all">   <!--其他logger输出所有的日志信息-->
+        <root level="DEBUG">   <!--其他logger输出所有的日志信息-->
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileError"/>
             <appender-ref ref="RollingFileRun"/>

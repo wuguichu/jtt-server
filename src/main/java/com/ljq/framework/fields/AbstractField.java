@@ -8,5 +8,5 @@ public abstract class AbstractField<T> {
 
     public abstract T getValue(ByteBuf buf);
 
-    public abstract byte[] getByteArray(Object type);
+    public abstract void getByteArray(Object type, ByteBuf buf);
 }

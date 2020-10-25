@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -60,7 +59,7 @@ public class MessageDecode {
                 log.error("tail length error  {}", buf.readableBytes());
                 return null;
             }
-            String signTail = buf.toString(buf.readerIndex(), 4, Charset.forName("gbk"));
+            String signTail = buf.toString(buf.readerIndex(), 4, CommonDefine.codecCharset);
             if (!"RTTP".equals(signTail)) {
                 log.error("signTail error {}", signTail);
                 return null;
@@ -98,8 +97,6 @@ public class MessageDecode {
         header.setTerminalNum(terminalNum);
         // reserves 2byte
 
-        log.debug(header);
-
         return header;
     }
 
@@ -113,7 +110,7 @@ public class MessageDecode {
             buf.skipBytes(index);
             if (buf.readableBytes() < 4)
                 return false;
-            if ("RPTP".equals(buf.toString(buf.readerIndex(), 4, Charset.forName("gbk"))))
+            if ("RPTP".equals(buf.toString(buf.readerIndex(), 4, CommonDefine.codecCharset)))
                 return true;
             buf.skipBytes(1);
         }

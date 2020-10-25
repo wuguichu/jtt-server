@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 public class BcdField extends AbstractField<byte[]> {
     @Override
     public void setLength(int length) {
-        this.length = length;
+        this.length = Math.max(length, 0);
     }
 
     @Override
@@ -21,18 +21,17 @@ public class BcdField extends AbstractField<byte[]> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof byte[])) {
-            return null;
-        }
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof byte[]) || buf == null)
+            return;
 
-        byte[] value = (byte[]) type;
-        byte[] buf = new byte[length];
-        if (value.length > length)
-            System.arraycopy(value, 0, buf, 0, length);
-        else
-            System.arraycopy(value, 0, buf, length - value.length, value.length);
-        return buf;
+        byte[] buffer = (byte[]) type;
+        if (buffer.length > length)
+            buf.writeBytes(buffer, 0, length);
+        else {
+            buf.writeBytes(buffer);
+            buf.writeZero(length - buffer.length);
+        }
     }
 
     private int length;

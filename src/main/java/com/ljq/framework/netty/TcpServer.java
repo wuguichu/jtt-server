@@ -1,6 +1,7 @@
 package com.ljq.framework.netty;
 
 import com.ljq.framework.codec.MessageDecode;
+import com.ljq.framework.codec.MessageEncode;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -59,8 +60,9 @@ public class TcpServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) {
                         nioSocketChannel.pipeline()
                                 .addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS))
-                                .addLast(new JttDecodeHander(new MessageDecode("com.ljq.protocol.basic")))
-                                .addLast(new JttProtocolHander());
+                                .addLast(new JttEncodeHandler(new MessageEncode("com.ljq.protocol.basic")))
+                                .addLast(new JttDecodeHandler(new MessageDecode("com.ljq.protocol.basic")))
+                                .addLast(new JttProtocolHandler("com.ljq.backstage.handler"));
                     }
                 });
 

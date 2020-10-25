@@ -1,6 +1,5 @@
 package com.ljq.framework.fields;
 
-import com.ljq.framework.utils.ByteTransform;
 import io.netty.buffer.ByteBuf;
 
 public class Int64Field extends AbstractField<Long> {
@@ -15,10 +14,10 @@ public class Int64Field extends AbstractField<Long> {
     }
 
     @Override
-    public byte[] getByteArray(Object type) {
-        if (!(type instanceof Long)) {
-            return null;
-        }
-        return ByteTransform.long2byteArray((Long) type);
+    public void getByteArray(Object type, ByteBuf buf) {
+        if (!(type instanceof Long) || buf == null)
+            return;
+
+        buf.writeLongLE((Long) type);
     }
 }

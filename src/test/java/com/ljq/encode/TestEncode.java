@@ -1,65 +1,111 @@
-package com.ljq.encode;//package com.ssh.framework.test;
+package com.ljq.encode;
 
-import com.ljq.framework.codec.AbstractInstruction;
-import com.ljq.framework.codec.MessageDecode;
-import com.ljq.framework.codec.MessageEncode;
-import com.ljq.framework.codec.MessageHeader;
-import com.ljq.protocol.basic.CenterHeartBeat;
-import com.ljq.protocol.basic.TerminalAuth;
-import com.ljq.protocol.basic.TerminalDeviceInfo;
+import com.ljq.framework.codec.*;
+import com.ljq.framework.fields.AbstractField;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class TestEncode {
     @Test
     public void TestDecodeJtt() {
-        MessageEncode encoder = new MessageEncode();
-        encoder.initial("com.ljq.protocol.basic");
-        TerminalAuth instruct = new TerminalAuth();
-
-        byte[] Serial = {1, 2, 8, 1, 2, 8, 1, 2, 8};
-        MessageHeader header = instruct.getHeader();
-        header.setSerialNo(15);
-        header.setTerminalNum(Serial);
-        instruct.setBcdTerminalSerial(Serial);
-        instruct.setManufacturerId("facturerIdfacturerIdfacturerIdfacturerId");
-        System.out.println(instruct);
-
-        byte[] res = encoder.encode(instruct);
-        System.out.println("res = " + Arrays.toString(res));
-
+        MessageEncode encoder = new MessageEncode("com.ljq.protocol.basic");
         MessageDecode decoder = new MessageDecode("com.ljq.protocol.basic");
-        AbstractInstruction decode = decoder.decode(Unpooled.copiedBuffer(res));
-        System.out.println("decode = " + decode);
-        TerminalAuth decodeTer = (TerminalAuth) decode;
 
-        System.out.println("===================");
-        CenterHeartBeat instructs = new CenterHeartBeat();
-        header = instructs.getHeader();
-        header.setSerialNo(16);
-        header.setTerminalNum(Serial);
-        System.out.println(instructs);
-        res = encoder.encode(instructs);
-        System.out.println("res = " + Arrays.toString(res));
-        decode = decoder.decode(Unpooled.copiedBuffer(res));
-        System.out.println("decode = " + decode);
+        getDefaultInstruction();
 
-        System.out.println("===================");
-        TerminalDeviceInfo instructTerminalDeviceInfo = new TerminalDeviceInfo();
-        header = instructTerminalDeviceInfo.getHeader();
-        header.setSerialNo(17);
-        header.setTerminalNum(Serial);
-        instructTerminalDeviceInfo.setCarLicense("1234567890");
-        instructTerminalDeviceInfo.setDeviceType("lrl");
-        instructTerminalDeviceInfo.setAppVersion("v1.91");
-        instructTerminalDeviceInfo.setMcuVersion("v1.3");
-        instructTerminalDeviceInfo.setAiVersion("v1.4");
-        System.out.println(instructTerminalDeviceInfo);
-        res = encoder.encode(instructTerminalDeviceInfo);
-        System.out.println("res = " + Arrays.toString(res));
-        decode = decoder.decode(Unpooled.copiedBuffer(res));
-        System.out.println("decode = " + decode);
+        for (AbstractInstruction instruction : list) {
+            ByteBuf buf = encoder.encode(instruction);
+            AbstractInstruction decodeInstruction = decoder.decode(Unpooled.copiedBuffer(buf));
+
+            log.info("======================== 指令 0x{} ========================", Long.toHexString(instruction.getHeader().getInstruction()));
+            log.info("编码前 bean ：{}", instruction);
+            log.info("编码后十六进制 ：{}", ByteBufUtil.hexDump(buf));
+            log.info("解码后 bean ：{} \n", decodeInstruction);
+        }
     }
+
+    private void getDefaultInstruction() {
+        HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> beanInfo = InstructionBeanHelper.getBeanInfo("com.ljq.protocol.basic");
+
+        for (Map.Entry<Integer, InstructionBeanInfo<AbstractInstruction>> entry : beanInfo.entrySet()) {
+
+            Integer instructionValue = entry.getKey();
+            InstructionBeanInfo<AbstractInstruction> info = entry.getValue();
+            try {
+                AbstractInstruction instruction = info.getClazz().getDeclaredConstructor().newInstance();
+                TreeMap<Integer, FieldBeanInfo> fieldInfo = info.getFieldInfo();
+
+                for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
+                    FieldBeanInfo value = next.getValue();
+                    Method writeMethod = value.getWriteMethod();
+                    AbstractField<?> field = value.getField();
+
+                    Object obj = null;
+                    int count = 0;
+                    while (count++ < 100) {
+                        if (count < 50)
+                            obj = field.getValue(getRandomByteBuf());
+                        else
+                            obj = field.getValue(getInt32StringRandomByteBuf());
+                        if (obj == null) {
+                            continue;
+                        }
+                        break;
+                    }
+                    if (obj == null) {
+                        log.error("随机设置值失败, 指令 0x{}, writeMethod: {}", Long.toHexString(instructionValue), writeMethod);
+                        continue;
+                    }
+                    if (writeMethod != null)
+                        writeMethod.invoke(instruction, obj);
+                }
+
+                initHeader(instruction);
+                list.add(instruction);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private ByteBuf getRandomByteBuf() {
+        ByteBuf buffer = Unpooled.buffer(128, 256);
+        Random random = new Random(LocalDateTime.now().getSecond());
+
+        while (buffer.maxWritableBytes() >= 4) {
+            buffer.writeIntLE(random.nextInt());
+        }
+        return buffer;
+    }
+
+    private ByteBuf getInt32StringRandomByteBuf() {
+        ByteBuf buffer = Unpooled.buffer(128, 256);
+        Random random = new Random(LocalDateTime.now().getSecond());
+
+        buffer.writeIntLE(random.nextInt(32));
+        while (buffer.maxWritableBytes() >= 4) {
+            buffer.writeIntLE(random.nextInt());
+        }
+        return buffer;
+    }
+
+    private void initHeader(AbstractInstruction instruction) {
+        byte[] terminalNum = {1, 2, 8, 1, 2, 8};
+
+        instruction.getHeader().setSerialNo(serialNo++);
+        instruction.getHeader().setTerminalNum(terminalNum);
+    }
+
+    private final List<AbstractInstruction> list = new LinkedList<>();
+    private int serialNo = 0;
+    private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }
