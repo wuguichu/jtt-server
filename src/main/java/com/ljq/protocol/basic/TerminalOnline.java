@@ -43,7 +43,7 @@ public class TerminalOnline extends AbstractInstruction {
         this.appVersion = appVersion;
     }
 
-    @Field(index = 4, type = FieldType.UINT32)
+    @Field(index = 4, type = FieldType.INT64)
     public long getTime() {
         return time;
     }

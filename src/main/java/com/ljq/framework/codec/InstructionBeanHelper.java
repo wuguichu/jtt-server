@@ -2,6 +2,7 @@ package com.ljq.framework.codec;
 
 import com.ljq.framework.fields.AbstractField;
 import com.ljq.framework.fields.FieldFactory;
+import com.ljq.framework.fields.FieldType;
 import com.ljq.framework.utils.ClassUtil;
 
 import java.beans.BeanInfo;
@@ -15,33 +16,28 @@ import java.util.TreeMap;
 
 public final class InstructionBeanHelper {
 
-    public static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(String packagePath, HashMap<String, Integer> clazzMap) {
+    public static HashMap<Integer, InstructionBeanInfo> getBeanInfo(String packagePath, HashMap<String, Integer> clazzMap) {
         List<Class<?>> classList = ClassUtil.getClassList(packagePath);
 
         return getBeanInfo(classList, clazzMap);
     }
 
-    public static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(String packagePath) {
+    public static HashMap<Integer, InstructionBeanInfo> getBeanInfo(String packagePath) {
         List<Class<?>> classList = ClassUtil.getClassList(packagePath);
 
         return getBeanInfo(classList);
     }
 
 
-    private static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(List<Class<?>> clazzList, HashMap<String, Integer> clazzMap) {
-        HashMap<Integer, InstructionBeanInfo<T>> infoHashMap = new HashMap<>();
+    private static HashMap<Integer, InstructionBeanInfo> getBeanInfo(List<Class<?>> clazzList, HashMap<String, Integer> clazzMap) {
+        HashMap<Integer, InstructionBeanInfo> infoHashMap = new HashMap<>();
 
         for (Class<?> clazz : clazzList) {
             Class<?> superclass = clazz.getSuperclass();
             if (superclass != null && AbstractInstruction.class.isAssignableFrom(superclass)) {
                 Instruction instructAnno = clazz.getAnnotation(Instruction.class);
                 if (instructAnno != null && instructAnno.value() > 0) {
-                    InstructionBeanInfo<T> beanInfo = new InstructionBeanInfo<>();
-
-                    beanInfo.setClazz((Class<T>) clazz);
-                    beanInfo.setFieldInfo(getClassifiedInfo(clazz));
-
-                    infoHashMap.put(instructAnno.value(), beanInfo);
+                    infoHashMap.put(instructAnno.value(), getClassInstructionBeanInfo(clazz));
                     clazzMap.put(clazz.getName(), instructAnno.value());
                 }
             }
@@ -50,26 +46,30 @@ public final class InstructionBeanHelper {
         return infoHashMap;
     }
 
-    private static <T extends AbstractInstruction> HashMap<Integer, InstructionBeanInfo<T>> getBeanInfo(List<Class<?>> clazzList) {
-        HashMap<Integer, InstructionBeanInfo<T>> infoHashMap = new HashMap<>();
+    private static HashMap<Integer, InstructionBeanInfo> getBeanInfo(List<Class<?>> clazzList) {
+        HashMap<Integer, InstructionBeanInfo> infoHashMap = new HashMap<>();
 
         for (Class<?> clazz : clazzList) {
             Class<?> superclass = clazz.getSuperclass();
             if (superclass != null && AbstractInstruction.class.isAssignableFrom(superclass)) {
                 Instruction instructAnno = clazz.getAnnotation(Instruction.class);
                 if (instructAnno != null && instructAnno.value() > 0) {
-                    InstructionBeanInfo<T> beanInfo = new InstructionBeanInfo<>();
-
-                    beanInfo.setClazz((Class<T>) clazz);
-                    beanInfo.setFieldInfo(getClassifiedInfo(clazz));
-
-                    infoHashMap.put(instructAnno.value(), beanInfo);
+                    infoHashMap.put(instructAnno.value(), getClassInstructionBeanInfo(clazz));
                 }
             }
         }
 
         return infoHashMap;
     }
+
+	private static InstructionBeanInfo getClassInstructionBeanInfo(Class<?> clazz) {
+		InstructionBeanInfo beanInfo = new InstructionBeanInfo();
+
+        beanInfo.setClazz(clazz);
+        beanInfo.setFieldInfo(getClassifiedInfo(clazz));
+
+		return beanInfo;
+	}
 
     private static TreeMap<Integer, FieldBeanInfo> getClassifiedInfo(Class<?> clazz) {
         TreeMap<Integer, FieldBeanInfo> integerFieldBeanInfoTreeMap = new TreeMap<>();
@@ -80,15 +80,23 @@ public final class InstructionBeanHelper {
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
                 if (readMethod != null && readMethod.isAnnotationPresent(Field.class)) {
+					FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
+					
                     Field field = readMethod.getDeclaredAnnotation(Field.class);
-                    AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
-                    if (field.length() > 0) {
-                        assert fieldProduct != null;
-                        fieldProduct.setLength(field.length());
-                    }
+					if (field.type() == FieldType.SUBTYPE)
+					{
+						fieldBeanInfo.setSubTypeBeanInfo(getClassInstructionBeanInfo(propertyDescriptor.getPropertyType()));
+					}
+					else
+					{
+	                    AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
+	                    if (field.length() > 0) {
+	                        assert fieldProduct != null;
+	                        fieldProduct.setLength(field.length());
+	                    }
+						fieldBeanInfo.setField(fieldProduct);
+					}
 
-                    FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
-                    fieldBeanInfo.setField(fieldProduct);
                     fieldBeanInfo.setReadMethod(readMethod);
                     Method writeMethod = propertyDescriptor.getWriteMethod();
                     if (writeMethod != null) {

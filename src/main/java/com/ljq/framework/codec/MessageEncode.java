@@ -25,7 +25,7 @@ public class MessageEncode {
             return null;
         }
         header.setInstruction(instruction);
-        InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get(instruction);
+        InstructionBeanInfo instructionBeanInfo = instructInfo.get(instruction);
         if (instructionBeanInfo == null) {
             log.error("找不到指令id {} 对应的协议bean", instruction);
             return null;
@@ -78,7 +78,7 @@ public class MessageEncode {
         buf.writeZero(2);   // reserve 2
     }
 
-    private final HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
+    private final HashMap<Integer, InstructionBeanInfo> instructInfo;
     private final HashMap<String, Integer> clazzMap;
     private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }

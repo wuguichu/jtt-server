@@ -14,8 +14,11 @@ public class TerminalAuthHandler extends AbstractHandler {
         TerminalAuthResp terminalAuthResp = new TerminalAuthResp();
 
         terminalAuthResp.setErrorCode(0);
-        terminalAuthResp.setVerificationCode("123456789");
-        terminalAuthResp.setLoginAddress("192.168.1.199:9109");
+        terminalAuthResp.setVerificationCode("");//"123456789"
+        terminalAuthResp.setIpVersion(0);
+		terminalAuthResp.setAddrFmt(0);
+		terminalAuthResp.setPort(0);
+		terminalAuthResp.setIpAddress("");//"192.168.1.186"	"192.168.1.199"
 
         session.setAuthStatus(true);
         session.setTerminalNum(message.getHeader().getTerminalNum());

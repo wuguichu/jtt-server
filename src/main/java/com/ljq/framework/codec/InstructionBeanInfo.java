@@ -2,12 +2,12 @@ package com.ljq.framework.codec;
 
 import java.util.TreeMap;
 
-public class InstructionBeanInfo<T extends AbstractInstruction> {
-    public Class<T> getClazz() {
+public class InstructionBeanInfo {
+    public Class<?> getClazz() {
         return clazz;
     }
 
-    public void setClazz(Class<T> clazz) {
+    public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
     }
 
@@ -27,6 +27,6 @@ public class InstructionBeanInfo<T extends AbstractInstruction> {
                 '}';
     }
 
-    private Class<T> clazz;
+    private Class<?> clazz;
     private TreeMap<Integer, FieldBeanInfo> fieldInfo;
 }

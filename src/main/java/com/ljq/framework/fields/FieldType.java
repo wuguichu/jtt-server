@@ -11,7 +11,8 @@ public enum FieldType {
     FIXEDSTRING(),
     INT32STRING(),
     BCD(),
-    RESERVE();
+    RESERVE(),
+	SUBTYPE();
 
     FieldType() {
     }

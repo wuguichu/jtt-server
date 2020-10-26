@@ -31,13 +31,13 @@ public class MessageDecode {
             buf.skipBytes(32);
 
             long instruction = header.getInstruction();
-            InstructionBeanInfo<AbstractInstruction> instructionBeanInfo = instructInfo.get((int) instruction);
+            InstructionBeanInfo instructionBeanInfo = instructInfo.get((int) instruction);
             if (instructionBeanInfo == null) {
                 log.warn("找不到指令id {} 对应的协议bean", instruction);
                 return null;
             }
 
-            AbstractInstruction instructionBean = instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
+            AbstractInstruction instructionBean = (AbstractInstruction)instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
             instructionBean.setHeader(header);
 
             TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
@@ -116,6 +116,6 @@ public class MessageDecode {
         }
     }
 
-    private final HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> instructInfo;
+    private final HashMap<Integer, InstructionBeanInfo> instructInfo;
     private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }

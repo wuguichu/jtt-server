@@ -25,13 +25,40 @@ public class TerminalAuthResp extends AbstractInstruction {
         this.verificationCode = verificationCode;
     }
 
-    @Field(index = 2, type = FieldType.FIXEDSTRING, length = 136)
-    public String getLoginAddress() {
-        return loginAddress;
+	@Field(index = 2, type = FieldType.UINT16)
+    public int getIpVersion() {
+        return ipVersion;
     }
 
-    public void setLoginAddress(String loginAddress) {
-        this.loginAddress = loginAddress;
+    public void setIpVersion(int ipVersion) {
+        this.ipVersion = ipVersion;
+    }
+	
+	@Field(index = 3, type = FieldType.UINT16)
+    public int getAddrFmt() {
+        return addrFmt;
+    }
+
+    public void setAddrFmt(int addrFmt) {
+        this.addrFmt = addrFmt;
+    }
+	
+	@Field(index = 4, type = FieldType.UINT32)
+    public long getPort() {
+        return port;
+    }
+
+    public void setPort(long port) {
+        this.port = port;
+    }
+	
+    @Field(index = 5, type = FieldType.FIXEDSTRING, length = 128)
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     @Override
@@ -39,12 +66,18 @@ public class TerminalAuthResp extends AbstractInstruction {
         return "TerminalAuthResp{" +
                 "errorCode=" + errorCode +
                 ", verificationCode='" + verificationCode + '\'' +
-                ", loginAddress='" + loginAddress + '\'' +
+                ", ipVersion='" + ipVersion + '\'' +
+                ", addrFmt='" + addrFmt + '\'' +
+                ", port='" + port + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
                 ", header=" + header +
                 '}';
     }
 
     private int errorCode;
     private String verificationCode;
-    private String loginAddress;
+    private int ipVersion;
+	private int addrFmt;
+	private long port;
+	private String ipAddress;
 }
