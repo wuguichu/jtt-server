@@ -25,7 +25,7 @@ public class TerminalAuthResp extends AbstractInstruction {
         this.verificationCode = verificationCode;
     }
 
-	@Field(index = 2, type = FieldType.UINT16)
+    @Field(index = 2, type = FieldType.UINT16)
     public int getIpVersion() {
         return ipVersion;
     }
@@ -33,8 +33,8 @@ public class TerminalAuthResp extends AbstractInstruction {
     public void setIpVersion(int ipVersion) {
         this.ipVersion = ipVersion;
     }
-	
-	@Field(index = 3, type = FieldType.UINT16)
+
+    @Field(index = 3, type = FieldType.UINT16)
     public int getAddrFmt() {
         return addrFmt;
     }
@@ -42,8 +42,8 @@ public class TerminalAuthResp extends AbstractInstruction {
     public void setAddrFmt(int addrFmt) {
         this.addrFmt = addrFmt;
     }
-	
-	@Field(index = 4, type = FieldType.UINT32)
+
+    @Field(index = 4, type = FieldType.UINT32)
     public long getPort() {
         return port;
     }
@@ -51,7 +51,7 @@ public class TerminalAuthResp extends AbstractInstruction {
     public void setPort(long port) {
         this.port = port;
     }
-	
+
     @Field(index = 5, type = FieldType.FIXEDSTRING, length = 128)
     public String getIpAddress() {
         return ipAddress;
@@ -77,7 +77,7 @@ public class TerminalAuthResp extends AbstractInstruction {
     private int errorCode;
     private String verificationCode;
     private int ipVersion;
-	private int addrFmt;
-	private long port;
-	private String ipAddress;
+    private int addrFmt;
+    private long port;
+    private String ipAddress;
 }

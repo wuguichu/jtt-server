@@ -33,41 +33,20 @@ public class TestEncode {
     }
 
     private void getDefaultInstruction() {
-        HashMap<Integer, InstructionBeanInfo<AbstractInstruction>> beanInfo = InstructionBeanHelper.getBeanInfo("com.ljq.protocol.basic");
+        HashMap<Integer, InstructionBeanInfo> beanInfo = InstructionBeanHelper.getBeanInfo("com.ljq.protocol.basic");
 
-        for (Map.Entry<Integer, InstructionBeanInfo<AbstractInstruction>> entry : beanInfo.entrySet()) {
+        for (Map.Entry<Integer, InstructionBeanInfo> entry : beanInfo.entrySet()) {
 
             Integer instructionValue = entry.getKey();
-            InstructionBeanInfo<AbstractInstruction> info = entry.getValue();
+            InstructionBeanInfo info = entry.getValue();
             try {
-                AbstractInstruction instruction = info.getClazz().getDeclaredConstructor().newInstance();
-                TreeMap<Integer, FieldBeanInfo> fieldInfo = info.getFieldInfo();
-
-                for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
-                    FieldBeanInfo value = next.getValue();
-                    Method writeMethod = value.getWriteMethod();
-                    AbstractField<?> field = value.getField();
-
-                    Object obj = null;
-                    int count = 0;
-                    while (count++ < 100) {
-                        if (count < 50)
-                            obj = field.getValue(getRandomByteBuf());
-                        else
-                            obj = field.getValue(getInt32StringRandomByteBuf());
-                        if (obj == null) {
-                            continue;
-                        }
-                        break;
-                    }
-                    if (obj == null) {
-                        log.error("随机设置值失败, 指令 0x{}, writeMethod: {}", Long.toHexString(instructionValue), writeMethod);
-                        continue;
-                    }
-                    if (writeMethod != null)
-                        writeMethod.invoke(instruction, obj);
+                Object defaultInstructionBean = getDefaultInstructionBean(info);
+                if (!(defaultInstructionBean instanceof AbstractInstruction)) {
+                    log.error("设置bean失败，指令是: 0x{}", Long.toHexString(instructionValue));
+                    continue;
                 }
 
+                AbstractInstruction instruction = (AbstractInstruction) defaultInstructionBean;
                 initHeader(instruction);
                 list.add(instruction);
             } catch (Exception e) {
@@ -75,6 +54,43 @@ public class TestEncode {
                 e.printStackTrace();
             }
         }
+    }
+
+    private Object getDefaultInstructionBean(InstructionBeanInfo info) throws Exception {
+        Object instance = info.getClazz().getDeclaredConstructor().newInstance();
+        TreeMap<Integer, FieldBeanInfo> fieldInfo = info.getFieldInfo();
+
+        for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
+            FieldBeanInfo value = next.getValue();
+            Method writeMethod = value.getWriteMethod();
+            AbstractField<?> field = value.getField();
+            InstructionBeanInfo subTypeBeanInfo = value.getSubTypeBeanInfo();
+
+            Object obj = null;
+            if (subTypeBeanInfo != null)
+                obj = getDefaultInstructionBean(subTypeBeanInfo);
+            else {
+                int count = 0;
+                while (count++ < 100) {
+                    if (count < 50)
+                        obj = field.getValue(getRandomByteBuf());
+                    else
+                        obj = field.getValue(getInt32StringRandomByteBuf());
+                    if (obj == null) {
+                        continue;
+                    }
+                    break;
+                }
+            }
+            if (obj == null) {
+                log.error("随机设置值失败, writeMethod: {}", writeMethod);
+                return null;
+            }
+            if (writeMethod != null)
+                writeMethod.invoke(instance, obj);
+        }
+
+        return instance;
     }
 
     private ByteBuf getRandomByteBuf() {

@@ -34,17 +34,8 @@ public class MessageEncode {
             ByteBuf buf = Unpooled.buffer(64, 1024);
             encodeHeader(header, buf);
 
-            TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
-            for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
-                FieldBeanInfo value = next.getValue();
-
-                Method readMethod = value.getReadMethod();
-                AbstractField<?> field = value.getField();
-                if (readMethod == null) {
-                    log.error("协议bean没有readMethod");
-                    return null;
-                }
-                field.getByteArray(readMethod.invoke(instruct), buf);
+            if (!getInstructionBuffer(instruct, instructionBeanInfo, buf)) {
+                return null;
             }
 
             buf.setIntLE(buf.readerIndex() + 8, buf.readableBytes() - 20); // 设置header的包长字段
@@ -56,6 +47,36 @@ public class MessageEncode {
         }
 
         return null;
+    }
+
+    private static boolean getInstructionBuffer(Object instruct, InstructionBeanInfo beanInfo, ByteBuf buf) {
+        try {
+            TreeMap<Integer, FieldBeanInfo> fieldInfo = beanInfo.getFieldInfo();
+
+            for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
+                FieldBeanInfo value = next.getValue();
+                Method readMethod = value.getReadMethod();
+                AbstractField<?> field = value.getField();
+                InstructionBeanInfo subTypeBeanInfo = value.getSubTypeBeanInfo();
+
+                if (readMethod == null || (field == null && subTypeBeanInfo == null)) {
+                    log.error("协议bean没有 readMethod 或者 field 和 subTypeBeanInfo 都是 null");
+                    return false;
+                }
+                if (field != null)
+                    field.getByteArray(readMethod.invoke(instruct), buf);
+                else {
+                    getInstructionBuffer(readMethod.invoke(instruct), subTypeBeanInfo, buf);
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            log.error("编码出现错误");
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private static void encodeHeader(MessageHeader header, ByteBuf buf) {

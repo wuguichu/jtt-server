@@ -4,6 +4,7 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
+import com.ljq.protocol.basic.attribute.TimeInfo;
 
 @Instruction(BasicId.TERMINAL_ONLINE)
 public class TerminalOnline extends AbstractInstruction {
@@ -43,13 +44,13 @@ public class TerminalOnline extends AbstractInstruction {
         this.appVersion = appVersion;
     }
 
-    @Field(index = 4, type = FieldType.INT64)
-    public long getTime() {
-        return time;
+    @Field(index = 4, type = FieldType.SUBTYPE)
+    public TimeInfo getTimeInfo() {
+        return timeInfo;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setTimeInfo(TimeInfo timeInfo) {
+        this.timeInfo = timeInfo;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class TerminalOnline extends AbstractInstruction {
                 ", terminalName='" + terminalName + '\'' +
                 ", terminalType=" + terminalType +
                 ", appVersion='" + appVersion + '\'' +
-                ", time=" + time +
+                ", timeInfo=" + timeInfo +
                 ", header=" + header +
                 '}';
     }
@@ -68,5 +69,5 @@ public class TerminalOnline extends AbstractInstruction {
     private String terminalName;
     private long terminalType;
     private String appVersion;
-    private long time;
+    private TimeInfo timeInfo;
 }

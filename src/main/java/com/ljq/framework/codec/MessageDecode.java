@@ -37,23 +37,11 @@ public class MessageDecode {
                 return null;
             }
 
-            AbstractInstruction instructionBean = (AbstractInstruction)instructionBeanInfo.getClazz().getDeclaredConstructor().newInstance();
-            instructionBean.setHeader(header);
-
-            TreeMap<Integer, FieldBeanInfo> fieldInfo = instructionBeanInfo.getFieldInfo();
-            for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
-                FieldBeanInfo value = next.getValue();
-
-                Method writeMethod = value.getWriteMethod();
-                AbstractField<?> field = value.getField();
-                Object obj = field.getValue(buf);
-                if (obj == null) {
-                    log.error("解码字段出现错误");
-                    return null;
-                }
-                if (writeMethod != null)
-                    writeMethod.invoke(instructionBean, obj);
+            AbstractInstruction instructionBean = (AbstractInstruction) getInstructionBean(instructionBeanInfo, buf);
+            if (instructionBean == null) {
+                return null;
             }
+            instructionBean.setHeader(header);
 
             if (buf.readableBytes() < 4) {
                 log.error("tail length error  {}", buf.readableBytes());
@@ -67,6 +55,39 @@ public class MessageDecode {
             buf.skipBytes(4);
 
             return instructionBean;
+        } catch (Exception e) {
+            log.error("解码出现错误");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static Object getInstructionBean(InstructionBeanInfo beanInfo, ByteBuf buf) {
+        try {
+            Object instance = beanInfo.getClazz().getDeclaredConstructor().newInstance();
+            TreeMap<Integer, FieldBeanInfo> fieldInfo = beanInfo.getFieldInfo();
+
+            for (Map.Entry<Integer, FieldBeanInfo> next : fieldInfo.entrySet()) {
+                FieldBeanInfo value = next.getValue();
+                Method writeMethod = value.getWriteMethod();
+                AbstractField<?> field = value.getField();
+                InstructionBeanInfo subTypeBeanInfo = value.getSubTypeBeanInfo();
+                Object setObj = null;
+
+                if (field != null)
+                    setObj = field.getValue(buf);
+                else if (subTypeBeanInfo != null)
+                    setObj = getInstructionBean(subTypeBeanInfo, buf);
+                if (setObj == null) {
+                    log.error("解码字段出现错误");
+                    return null;
+                }
+                if (writeMethod != null)
+                    writeMethod.invoke(instance, setObj);
+            }
+
+            return instance;
         } catch (Exception e) {
             log.error("解码出现错误");
             e.printStackTrace();

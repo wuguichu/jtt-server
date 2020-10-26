@@ -5,14 +5,14 @@ import com.ljq.framework.fields.AbstractField;
 import java.lang.reflect.Method;
 
 public class FieldBeanInfo {
-	public InstructionBeanInfo getSubTypeBeanInfo() {
+    public InstructionBeanInfo getSubTypeBeanInfo() {
         return subTypeBeanInfo;
     }
 
     public void setSubTypeBeanInfo(InstructionBeanInfo subTypeBeanInfo) {
         this.subTypeBeanInfo = subTypeBeanInfo;
     }
-	
+
     public AbstractField<?> getField() {
         return field;
     }
@@ -40,14 +40,14 @@ public class FieldBeanInfo {
     @Override
     public String toString() {
         return "FieldBeanInfo{" +
-				"subTypeBeanInfo=" + subTypeBeanInfo +
+                "subTypeBeanInfo=" + subTypeBeanInfo +
                 "field=" + field +
                 ", readMethod=" + readMethod +
                 ", writeMethod=" + writeMethod +
                 '}';
     }
 
-	private InstructionBeanInfo subTypeBeanInfo;
+    private InstructionBeanInfo subTypeBeanInfo;
     private AbstractField<?> field;
     private Method readMethod;
     private Method writeMethod;

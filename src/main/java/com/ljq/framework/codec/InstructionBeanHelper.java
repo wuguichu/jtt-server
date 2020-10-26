@@ -62,14 +62,14 @@ public final class InstructionBeanHelper {
         return infoHashMap;
     }
 
-	private static InstructionBeanInfo getClassInstructionBeanInfo(Class<?> clazz) {
-		InstructionBeanInfo beanInfo = new InstructionBeanInfo();
+    private static InstructionBeanInfo getClassInstructionBeanInfo(Class<?> clazz) {
+        InstructionBeanInfo beanInfo = new InstructionBeanInfo();
 
         beanInfo.setClazz(clazz);
         beanInfo.setFieldInfo(getClassifiedInfo(clazz));
 
-		return beanInfo;
-	}
+        return beanInfo;
+    }
 
     private static TreeMap<Integer, FieldBeanInfo> getClassifiedInfo(Class<?> clazz) {
         TreeMap<Integer, FieldBeanInfo> integerFieldBeanInfoTreeMap = new TreeMap<>();
@@ -80,22 +80,19 @@ public final class InstructionBeanHelper {
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
                 if (readMethod != null && readMethod.isAnnotationPresent(Field.class)) {
-					FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
-					
+                    FieldBeanInfo fieldBeanInfo = new FieldBeanInfo();
+
                     Field field = readMethod.getDeclaredAnnotation(Field.class);
-					if (field.type() == FieldType.SUBTYPE)
-					{
-						fieldBeanInfo.setSubTypeBeanInfo(getClassInstructionBeanInfo(propertyDescriptor.getPropertyType()));
-					}
-					else
-					{
-	                    AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
-	                    if (field.length() > 0) {
-	                        assert fieldProduct != null;
-	                        fieldProduct.setLength(field.length());
-	                    }
-						fieldBeanInfo.setField(fieldProduct);
-					}
+                    if (field.type() == FieldType.SUBTYPE) {
+                        fieldBeanInfo.setSubTypeBeanInfo(getClassInstructionBeanInfo(propertyDescriptor.getPropertyType()));
+                    } else {
+                        AbstractField<?> fieldProduct = FieldFactory.getFieldProduct(field.type());
+                        if (field.length() > 0) {
+                            assert fieldProduct != null;
+                            fieldProduct.setLength(field.length());
+                        }
+                        fieldBeanInfo.setField(fieldProduct);
+                    }
 
                     fieldBeanInfo.setReadMethod(readMethod);
                     Method writeMethod = propertyDescriptor.getWriteMethod();
