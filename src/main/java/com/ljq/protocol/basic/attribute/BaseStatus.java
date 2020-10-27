@@ -1,9 +1,6 @@
 package com.ljq.protocol.basic.attribute;
 
-import com.ljq.framework.codec.Field;
-import com.ljq.framework.fields.FieldType;
-
-public class TimeInfo {
+public class BaseStatus {
     @Field(index = 0, type = FieldType.UINT32)
     public long getTime() {
         return time;
@@ -40,7 +37,9 @@ public class TimeInfo {
                 '}';
     }
 
-    private long time;
-    private short timeZone;
-    private Byte reserve;
+    private short gpsStatus;
+    private short udiskStatus;
+	private short ummcStatus;
+	private short channelStatus;
+	private short recordStatus;
 }

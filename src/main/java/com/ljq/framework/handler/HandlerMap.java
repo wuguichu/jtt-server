@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HandlerMap {
-    int value() default -1;
+    int[] value() default {};
 
     int type() default -1;
 }

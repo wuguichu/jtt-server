@@ -33,7 +33,7 @@ public class MessageDecode {
             long instruction = header.getInstruction();
             InstructionBeanInfo instructionBeanInfo = instructInfo.get((int) instruction);
             if (instructionBeanInfo == null) {
-                log.warn("找不到指令id {} 对应的协议bean", instruction);
+                log.warn("找不到指令id 0x{} 对应的协议bean", Long.toHexString(instruction));
                 return null;
             }
 

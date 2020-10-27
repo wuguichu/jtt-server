@@ -4,8 +4,10 @@ import com.ljq.framework.netty.TcpServer;
 
 import java.util.Scanner;
 
+import org.junit.Test;
+
 public class TestTcpServer {
-    //    @Test
+	@Test
     public void testTcpServer() {
         // 52505450000f000000000000000000000000000000000108010208010208000052505450
         // 52505450001000000000000c000000010000000000000108010208010208000052505450
