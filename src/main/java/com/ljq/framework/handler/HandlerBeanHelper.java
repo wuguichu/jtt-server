@@ -21,13 +21,13 @@ public final class HandlerBeanHelper {
             Class<?> superclass = clazz.getSuperclass();
             if (superclass != null && AbstractHandler.class.isAssignableFrom(superclass)) {
                 HandlerMap annotation = clazz.getAnnotation(HandlerMap.class);
-                if (annotation != null && annotation.value() != null) {
+                if (annotation != null) {
                     Object handlerObj;
                     try {
                         handlerObj = clazz.getDeclaredConstructor().newInstance();
-						for(int value : annotation.value()){
-                        	infoHashMap.put(value, (AbstractHandler) handlerObj);
-						}
+                        for (int value : annotation.value()) {
+                            infoHashMap.put(value, (AbstractHandler) handlerObj);
+                        }
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                         e.printStackTrace();
                     }

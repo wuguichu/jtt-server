@@ -49,7 +49,7 @@ public class LocationInfo {
         this.directionAngle = directionAngle;
     }
 
-	@Field(index = 5, type = FieldType.INT64)
+    @Field(index = 5, type = FieldType.INT64)
     public long getLongitude() {
         return longitude;
     }
@@ -58,7 +58,7 @@ public class LocationInfo {
         this.longitude = longitude;
     }
 
-	@Field(index = 6, type = FieldType.INT64)
+    @Field(index = 6, type = FieldType.INT64)
     public long getLatitude() {
         return latitude;
     }

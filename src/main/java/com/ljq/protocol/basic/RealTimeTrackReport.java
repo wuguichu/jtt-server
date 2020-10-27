@@ -4,8 +4,8 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
-import com.ljq.protocol.basic.attribute.TimeInfo;
 import com.ljq.protocol.basic.attribute.LocationInfo;
+import com.ljq.protocol.basic.attribute.TimeInfo;
 
 @Instruction(BasicId.REAL_TIME_TRACK_REPORT)
 public class RealTimeTrackReport extends AbstractInstruction {
@@ -27,7 +27,7 @@ public class RealTimeTrackReport extends AbstractInstruction {
         this.locationInfo = locationInfo;
     }
 
-	@Field(index = 2, type = FieldType.UINT8)
+    @Field(index = 2, type = FieldType.UINT8)
     public short getGsensorStatus() {
         return gsensorStatus;
     }
@@ -36,7 +36,7 @@ public class RealTimeTrackReport extends AbstractInstruction {
         this.gsensorStatus = gsensorStatus;
     }
 
-	@Field(index = 3, type = FieldType.UINT16)
+    @Field(index = 3, type = FieldType.UINT16)
     public int getVoltage() {
         return voltage;
     }
@@ -45,7 +45,7 @@ public class RealTimeTrackReport extends AbstractInstruction {
         this.voltage = voltage;
     }
 
-	@Field(index = 4, type = FieldType.INT16)
+    @Field(index = 4, type = FieldType.INT16)
     public short getTemperature() {
         return temperature;
     }
@@ -67,8 +67,8 @@ public class RealTimeTrackReport extends AbstractInstruction {
     }
 
     private TimeInfo timeInfo;
-	private LocationInfo locationInfo;
+    private LocationInfo locationInfo;
     private short gsensorStatus;
-	private int voltage;
-	private short temperature;
+    private int voltage;
+    private short temperature;
 }

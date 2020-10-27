@@ -3,10 +3,9 @@ package com.ljq.protocol.basic;
 import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
-import com.ljq.framework.codec.CustomCodec;
 import com.ljq.framework.fields.FieldType;
-import com.ljq.protocol.basic.attribute.TimeInfo;
 import com.ljq.protocol.basic.attribute.LocationInfo;
+import com.ljq.protocol.basic.attribute.TimeInfo;
 
 @Instruction(BasicId.TERMINAL_STATUS_CHANGE)
 public class TerminalStatusChange extends AbstractInstruction {
@@ -28,16 +27,7 @@ public class TerminalStatusChange extends AbstractInstruction {
         this.locationInfo = locationInfo;
     }
 
-	@Field(index = 2, type = FieldType.UINT32)
-    public long getStatusCount() {
-        return statusCount;
-    }
-
-    public void setStatusCount(long statusCount) {
-        this.statusCount = statusCount;
-    }
-
-	@Field(index = 3, type = FieldType.SELFCODEC)
+    @Field(index = 2, type = FieldType.UINT32)
     public long getStatusCount() {
         return statusCount;
     }
@@ -49,14 +39,14 @@ public class TerminalStatusChange extends AbstractInstruction {
     @Override
     public String toString() {
         return "TerminalStatusChange{" +
-                "timeInfo='" + timeInfo + '\'' +
-                ", locationInfo='" + locationInfo + '\'' +
-                ", statusCount='" + statusCount + '\'' +
+                "timeInfo=" + timeInfo +
+                ", locationInfo=" + locationInfo +
+                ", statusCount=" + statusCount +
                 ", header=" + header +
                 '}';
     }
 
     private TimeInfo timeInfo;
-	private LocationInfo locationInfo;
+    private LocationInfo locationInfo;
     private long statusCount;
 }

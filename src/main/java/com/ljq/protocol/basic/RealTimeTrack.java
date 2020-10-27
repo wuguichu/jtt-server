@@ -4,7 +4,6 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
-import com.ljq.protocol.basic.attribute.TimeInfo;
 
 @Instruction(BasicId.REAL_TIME_TRACK)
 public class RealTimeTrack extends AbstractInstruction {
