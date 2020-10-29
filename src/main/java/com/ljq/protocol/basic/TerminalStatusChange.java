@@ -28,6 +28,7 @@ public class TerminalStatusChange extends AbstractInstruction {
         this.locationInfo = locationInfo;
     }
 
+	@Field(index = 2, type = FieldType.BASESTATUS)
     public BaseStatus getBaseStatus() {
         return baseStatus;
     }

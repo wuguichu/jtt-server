@@ -12,6 +12,7 @@ public enum FieldType {
     INT32STRING(),
     BCD(),
     RESERVE(),
+    BASESTATUS(),
     SUBTYPE();
 
     FieldType() {

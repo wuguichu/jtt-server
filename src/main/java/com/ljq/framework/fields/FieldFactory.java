@@ -14,6 +14,7 @@ public final class FieldFactory {
             case INT32STRING -> new Int32StringField();
             case BCD -> new BcdField();
             case RESERVE -> new ReserveField();
+			case BASESTATUS -> new BaseStatusField();
             case SUBTYPE -> null;
         };
     }

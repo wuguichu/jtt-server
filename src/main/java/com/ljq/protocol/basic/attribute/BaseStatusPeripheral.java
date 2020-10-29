@@ -3,6 +3,16 @@ package com.ljq.protocol.basic.attribute;
 import java.util.Arrays;
 
 public class BaseStatusPeripheral {
+	public BaseStatusPeripheral() {
+        type = new short[12];
+		stat = new short[12];
+		name = new String[12];
+
+		for(int i = 0; i < type.length; i++){
+			type[i] = 0xff;
+		}			
+    }
+	
     public short[] getType() {
         return type;
     }
@@ -19,11 +29,11 @@ public class BaseStatusPeripheral {
         this.stat = stat;
     }
 
-    public short[] getName() {
+    public String[] getName() {
         return name;
     }
 
-    public void setName(short[] name) {
+    public void setName(String[] name) {
         this.name = name;
     }
 
@@ -38,5 +48,5 @@ public class BaseStatusPeripheral {
 
     private short[] type;
     private short[] stat;
-    private short[] name;
+    private String[] name;
 }

@@ -4,69 +4,49 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
+import com.ljq.protocol.basic.attribute.*;
 
 @Instruction(BasicId.POWERON_SELF_CHECK_INFO)
 public class PowerOnSelfCheckInfo extends AbstractInstruction {
-    @Field(index = 0, type = FieldType.FIXEDSTRING, length = 12)
-    public String getCarLicense() {
-        return carLicense;
-    }
+	@Field(index = 0, type = FieldType.SUBTYPE)
+	public TimeInfo getTimeInfo() {
+		return timeInfo;
+	}
 
-    public void setCarLicense(String carLicense) {
-        this.carLicense = carLicense;
-    }
+	public void setTimeInfo(TimeInfo timeInfo) {
+		this.timeInfo = timeInfo;
+	}
 
-    @Field(index = 1, type = FieldType.FIXEDSTRING, length = 20)
-    public String getDeviceType() {
-        return deviceType;
-    }
+	@Field(index = 1, type = FieldType.SUBTYPE)
+	public LocationInfo getLocationInfo() {
+		return locationInfo;
+	}
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
+	public void setLocationInfo(LocationInfo locationInfo) {
+		this.locationInfo = locationInfo;
+	}
 
-    @Field(index = 3, type = FieldType.INT32STRING)
-    public String getAppVersion() {
-        return appVersion;
-    }
+	@Field(index = 2, type = FieldType.BASESTATUS)
+	public BaseStatus getBaseStatus() {
+		return baseStatus;
+	}
 
-    public void setAppVersion(String appVersion) {
-        this.appVersion = appVersion;
-    }
+	public void setBaseStatus(BaseStatus baseStatus) {
+		this.baseStatus = baseStatus;
+	}
 
-    @Field(index = 5, type = FieldType.INT32STRING)
-    public String getMcuVersion() {
-        return mcuVersion;
-    }
+	@Override
+	public String toString() {
+		return "PowerOnSelfCheckInfo{" +
+				"timeInfo=" + timeInfo +
+				", locationInfo=" + locationInfo +
+				", baseStatus=" + baseStatus +
+				", header=" + header +
+				'}';
+	}
 
-    public void setMcuVersion(String mcuVersion) {
-        this.mcuVersion = mcuVersion;
-    }
-
-    @Field(index = 7, type = FieldType.INT32STRING)
-    public String getAiVersion() {
-        return aiVersion;
-    }
-
-    public void setAiVersion(String aiVersion) {
-        this.aiVersion = aiVersion;
-    }
-
-    @Override
-    public String toString() {
-        return "TerminalDeviceInfo{" +
-                "carLicense='" + carLicense + '\'' +
-                ", deviceType='" + deviceType + '\'' +
-                ", appVersion='" + appVersion + '\'' +
-                ", mcuVersion='" + mcuVersion + '\'' +
-                ", aiVersion='" + aiVersion + '\'' +
-                ", header=" + header +
-                '}';
-    }
-
-    private String carLicense;
-    private String deviceType;
-    private String appVersion;
-    private String mcuVersion;
-    private String aiVersion;
+	private TimeInfo timeInfo;
+	private LocationInfo locationInfo;
+	private BaseStatus baseStatus;
 }
+
