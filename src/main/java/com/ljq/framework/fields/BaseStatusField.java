@@ -1,8 +1,6 @@
 package com.ljq.framework.fields;
 
-import com.ljq.framework.codec.CommonDefine;
-import com.ljq.protocol.basic.attribute.*;
-
+import com.ljq.protocol.basic.attribute.BaseStatus;
 import io.netty.buffer.ByteBuf;
 
 public class BaseStatusField extends AbstractField<BaseStatus> {
@@ -12,25 +10,14 @@ public class BaseStatusField extends AbstractField<BaseStatus> {
         if (buf == null || buf.readableBytes() < 8) {
             return null;
         }
-		buf.skipBytes(4);
-		
-        String value = buf.toString(buf.readerIndex(), length, CommonDefine.codecCharset);
-        buf.skipBytes(length);
-        return value;
+        buf.skipBytes(4);
+
+        return new BaseStatus();
     }
 
     @Override
     public void getByteArray(Object type, ByteBuf buf) {
-        if (!(type instanceof String) || buf == null)
-            return;
-
-        String value = (String) type;
-        byte[] buffer = value.getBytes(CommonDefine.codecCharset);
-        if (buffer.length > length)
-            buf.writeBytes(buffer, 0, length);
-        else {
-            buf.writeBytes(buffer);
-            buf.writeZero(length - buffer.length);
+        if (!(type instanceof String) || buf == null) {
         }
     }
 }

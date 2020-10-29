@@ -4,6 +4,7 @@ import com.ljq.framework.codec.AbstractInstruction;
 import com.ljq.framework.codec.Field;
 import com.ljq.framework.codec.Instruction;
 import com.ljq.framework.fields.FieldType;
+import com.ljq.protocol.basic.attribute.BaseStatus;
 import com.ljq.protocol.basic.attribute.LocationInfo;
 import com.ljq.protocol.basic.attribute.TimeInfo;
 
@@ -27,13 +28,12 @@ public class TerminalStatusChange extends AbstractInstruction {
         this.locationInfo = locationInfo;
     }
 
-    @Field(index = 2, type = FieldType.UINT32)
-    public long getStatusCount() {
-        return statusCount;
+    public BaseStatus getBaseStatus() {
+        return baseStatus;
     }
 
-    public void setStatusCount(long statusCount) {
-        this.statusCount = statusCount;
+    public void setBaseStatus(BaseStatus baseStatus) {
+        this.baseStatus = baseStatus;
     }
 
     @Override
@@ -41,12 +41,12 @@ public class TerminalStatusChange extends AbstractInstruction {
         return "TerminalStatusChange{" +
                 "timeInfo=" + timeInfo +
                 ", locationInfo=" + locationInfo +
-                ", statusCount=" + statusCount +
+                ", baseStatus=" + baseStatus +
                 ", header=" + header +
                 '}';
     }
 
     private TimeInfo timeInfo;
     private LocationInfo locationInfo;
-    private long statusCount;
+    private BaseStatus baseStatus;
 }
