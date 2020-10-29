@@ -3,16 +3,14 @@ package com.ljq.protocol.basic.attribute;
 import java.util.Arrays;
 
 public class BaseStatusPeripheral {
-	public BaseStatusPeripheral() {
+    public BaseStatusPeripheral() {
         type = new short[12];
-		stat = new short[12];
-		name = new String[12];
+        stat = new short[12];
+        name = new String[12];
 
-		for(int i = 0; i < type.length; i++){
-			type[i] = 0xff;
-		}			
+        Arrays.fill(type, (short) 0xff);
     }
-	
+
     public short[] getType() {
         return type;
     }

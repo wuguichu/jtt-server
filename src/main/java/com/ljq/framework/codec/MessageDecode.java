@@ -80,7 +80,7 @@ public class MessageDecode {
                 else if (subTypeBeanInfo != null)
                     setObj = getInstructionBean(subTypeBeanInfo, buf);
                 if (setObj == null) {
-                    log.error("解码字段出现错误 {}" , writeMethod);
+                    log.error("解码字段出现错误 {}", writeMethod);
                     return null;
                 }
                 if (writeMethod != null)

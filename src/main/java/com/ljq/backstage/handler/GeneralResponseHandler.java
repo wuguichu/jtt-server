@@ -6,7 +6,7 @@ import com.ljq.framework.handler.HandlerMap;
 import com.ljq.framework.handler.JttSession;
 import com.ljq.protocol.basic.BasicId;
 
-@HandlerMap({BasicId.VEHICLE_DEVICE_INFO, BasicId.REAL_TIME_TRACK_REPORT})
+@HandlerMap({BasicId.VEHICLE_DEVICE_INFO, BasicId.REAL_TIME_TRACK_REPORT, BasicId.POWERON_SELF_CHECK_INFO, BasicId.TERMINAL_STATUS_CHANGE})
 public class GeneralResponseHandler extends AbstractHandler {
     @Override
     protected <T extends AbstractInstruction> AbstractInstruction handleDeviceMessage(JttSession session, T message) {

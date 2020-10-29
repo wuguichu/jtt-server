@@ -3,14 +3,12 @@ package com.ljq.protocol.basic.attribute;
 import java.util.Arrays;
 
 public class BaseStatusRecord {
-	public BaseStatusRecord() {
+    public BaseStatusRecord() {
         recordStatus = new short[16];
 
-		for(int i = 0; i < recordStatus.length; i++){
-			recordStatus[i] = 0xff;
-		}			
+        Arrays.fill(recordStatus, (short) 0xff);
     }
-	
+
     public short[] getRecordStatus() {
         return recordStatus;
     }

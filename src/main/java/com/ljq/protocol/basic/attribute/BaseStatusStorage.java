@@ -1,16 +1,25 @@
 package com.ljq.protocol.basic.attribute;
 
-public class BaseStatusStorage {
-	public BaseStatusStorage() {
-        status = new short[4];
-		totalCapacity = new long[4];
-		serial = new String[4];
+import java.util.Arrays;
 
-		for(int i = 0; i < status.length; i++){
-			status[i] = 0xff;
-		}			
+public class BaseStatusStorage {
+    public BaseStatusStorage() {
+        type = new short[4];
+        status = new short[4];
+        totalCapacity = new long[4];
+        serial = new String[4];
+
+        Arrays.fill(type, (short) 0xff);
     }
-	
+
+    public short[] getType() {
+        return type;
+    }
+
+    public void setType(short[] type) {
+        this.type = type;
+    }
+
     public short[] getStatus() {
         return status;
     }
@@ -35,6 +44,17 @@ public class BaseStatusStorage {
         this.serial = serial;
     }
 
+    @Override
+    public String toString() {
+        return "BaseStatusStorage{" +
+                "type=" + Arrays.toString(type) +
+                ", status=" + Arrays.toString(status) +
+                ", totalCapacity=" + Arrays.toString(totalCapacity) +
+                ", serial=" + Arrays.toString(serial) +
+                '}';
+    }
+
+    private short[] type;
     private short[] status;
     private long[] totalCapacity;
     private String[] serial;

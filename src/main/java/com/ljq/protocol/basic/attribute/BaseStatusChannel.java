@@ -3,14 +3,12 @@ package com.ljq.protocol.basic.attribute;
 import java.util.Arrays;
 
 public class BaseStatusChannel {
-	public BaseStatusChannel() {
+    public BaseStatusChannel() {
         channelStatus = new short[16];
 
-		for(int i = 0; i < channelStatus.length; i++){
-			channelStatus[i] = 0xff;
-		}			
+        Arrays.fill(channelStatus, (short) 0xff);
     }
-	
+
     public short[] getChannelStatus() {
         return channelStatus;
     }
