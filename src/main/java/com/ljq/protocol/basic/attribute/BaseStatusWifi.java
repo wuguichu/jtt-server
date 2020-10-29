@@ -9,12 +9,12 @@ public class BaseStatusWifi {
         this.module = module;
     }
 
-    public short getSingel() {
-        return singel;
+    public short getSingle() {
+        return single;
     }
 
-    public void setSingel(short singel) {
-        this.singel = singel;
+    public void setSingle(short single) {
+        this.single = single;
     }
 
     public short getFeatures() {
@@ -37,14 +37,14 @@ public class BaseStatusWifi {
     public String toString() {
         return "BaseStatusWifi{" +
                 "module=" + module +
-                ", singel=" + singel +
+                ", single=" + single +
                 ", features=" + features +
                 ", mode=" + mode +
                 '}';
     }
 
     private short module;
-    private short singel;
+    private short single;
     private short features;
     private short mode;
 }

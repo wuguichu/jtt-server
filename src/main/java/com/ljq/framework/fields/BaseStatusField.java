@@ -86,7 +86,7 @@ public class BaseStatusField extends AbstractField<BaseStatus> {
                 case BaseStatusId.WIFI -> {
                     BaseStatusWifi wifi = new BaseStatusWifi();
                     wifi.setModule(buf.getUnsignedByte(index));
-                    wifi.setSingel(buf.getShortLE(index + 1));
+                    wifi.setSingle(buf.getShortLE(index + 1));
                     wifi.setFeatures(buf.getUnsignedByte(index + 3));
                     wifi.setMode(buf.getUnsignedByte(index + 4));
                     baseStatus.setWifi(wifi);
