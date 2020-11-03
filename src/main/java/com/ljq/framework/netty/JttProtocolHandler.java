@@ -26,7 +26,7 @@ public class JttProtocolHandler extends ChannelInboundHandlerAdapter {
         AbstractInstruction request = (AbstractInstruction) msg;
         log.debug("channelRead: {}", request);
 
-        AbstractHandler abstractHandler = handlerHashMap.get((int) request.getHeader().getInstruction());
+        AbstractHandler<? extends AbstractInstruction> abstractHandler = handlerHashMap.get((int) request.getHeader().getInstruction());
         if (abstractHandler == null) {
             log.warn("没有找到指令 0x{} 对应的处理handler", Long.toHexString(request.getHeader().getInstruction()));
             return;
@@ -64,6 +64,6 @@ public class JttProtocolHandler extends ChannelInboundHandlerAdapter {
         super.exceptionCaught(ctx, cause);
     }
 
-    private final HashMap<Integer, AbstractHandler> handlerHashMap;
+    private final HashMap<Integer, AbstractHandler<? extends AbstractInstruction>> handlerHashMap;
     private static final Logger log = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 }

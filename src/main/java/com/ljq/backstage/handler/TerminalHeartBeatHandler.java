@@ -6,11 +6,12 @@ import com.ljq.framework.handler.HandlerMap;
 import com.ljq.framework.handler.JttSession;
 import com.ljq.protocol.basic.BasicId;
 import com.ljq.protocol.basic.CenterHeartBeat;
+import com.ljq.protocol.basic.TerminalHeartBeat;
 
 @HandlerMap(BasicId.TERMINAL_HEARTBEAT)
-public class TerminalHeartBeatHandler extends AbstractHandler {
+public class TerminalHeartBeatHandler extends AbstractHandler<TerminalHeartBeat> {
     @Override
-    protected <T extends AbstractInstruction> AbstractInstruction handleDeviceMessage(JttSession session, T message) {
+    protected AbstractInstruction handleDeviceMessage(JttSession session, TerminalHeartBeat message) {
         return new CenterHeartBeat();
     }
 }

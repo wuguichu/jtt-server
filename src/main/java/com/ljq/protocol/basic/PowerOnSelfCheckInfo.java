@@ -8,7 +8,7 @@ import com.ljq.protocol.basic.attribute.BaseStatus;
 import com.ljq.protocol.basic.attribute.LocationInfo;
 import com.ljq.protocol.basic.attribute.TimeInfo;
 
-@Instruction(BasicId.POWERON_SELF_CHECK_INFO)
+@Instruction(BasicId.POWER_ON_SELF_CHECK_INFO)
 public class PowerOnSelfCheckInfo extends AbstractInstruction {
     @Field(index = 0, type = FieldType.SUBTYPE)
     public TimeInfo getTimeInfo() {
