@@ -23,6 +23,6 @@ public class ShellCommand extends AbstractInstruction {
                 ", header=" + header +
                 '}';
     }
-	
+
     private String command;
 }

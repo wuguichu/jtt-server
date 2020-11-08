@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backstage.sql.mapper.DeviceInfoMapper">
+    <insert id="insert" parameterType="com.ljq.backstage.sql.entity.DeviceInfo">
+        INSERT INTO jtt.device_info
+        (terminal_serial_number,
+        <if test="carNumber!=null">,car_number</if>
+        ,device_type
+        <if test="appVersion!=null">,app_version</if>
+        <if test="mcuVersion!=null">,mcu_version</if>
+        <if test="aiVersion!=null">,ai_version</if>
+        )
+        VALUES
+        ( #{terminalSerialNumber}
+        <if test="carNumber!=null">,#{carNumber}</if>
+        ,#{deviceType.id}
+        <if test="appVersion!=null">,#{appVersion}</if>
+        <if test="mcuVersion!=null">,#{mcuVersion}</if>
+        <if test="aiVersion!=null">,#{aiVersion}</if>
+        )
+    </insert>
+
+    <delete id="deleteByTerminalSerialNumber" parameterType="java.lang.String">
+        delete
+        from jtt.device_info
+        where terminal_serial_number = #{terminalSerialNumber}
+    </delete>
+
+    <update id="update" parameterType="com.ljq.backstage.sql.entity.DeviceInfo">
+        update jtt.device_info
+        <set>
+            <if test="carNumber!=null">car_number=#{carNumber.id},</if>
+            <if test="deviceType!=null">device_type=#{deviceType.id},</if>
+            <if test="appVersion!=null">app_version=#{appVersion},</if>
+            <if test="mcuVersion!=null">mcu_version=#{mcuVersion},</if>
+            <if test="aiVersion!=null">ai_version=#{aiVersion},</if>
+        </set>
+        where terminal_serial_number = #{terminalSerialNumber}
+    </update>
+
+    <select id="getByTerminalSerialNumber" resultMap="DeviceInfoMap">
+        select terminal_serial_number, car_number, id, type_name, app_version, mcu_version, ai_version
+        from jtt.device_info,
+             jtt.device_type
+        where jtt.device_type.id = jtt.device_info.device_type
+          and terminal_serial_number = #{terminalSerialNumber}
+    </select>
+
+    <select id="getByPage" resultMap="DeviceInfoMap">
+        select terminal_serial_number, car_number, id, type_name, app_version, mcu_version, ai_version
+        from jtt.device_info,
+             jtt.device_type
+        where jtt.device_type.id = jtt.device_info.device_type
+        limit #{pageNum},#{pageSize}
+    </select>
+
+    <resultMap id="DeviceInfoMap" type="com.ljq.backstage.sql.entity.DeviceInfo">
+        <result property="terminalSerialNumber" column="terminal_serial_number"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="appVersion" column="app_version"/>
+        <result property="mcuVersion" column="mcu_version"/>
+        <result property="aiVersion" column="ai_version"/>
+        <association property="deviceType" javaType="com.ljq.backstage.sql.entity.DeviceType">
+            <result property="id" column="id"/>
+            <result property="typeName" column="type_name"/>
+        </association>
+    </resultMap>
+</mapper>

@@ -16,8 +16,8 @@ public interface BasicId {
     int REAL_TIME_TRACK_REPORT = 0x1005;
     int UPGRADE = 0x100a;
     int UPGRADE_STATUS = 0x100b;
-	int SHELL_COMMAND = 0x100c;
+    int SHELL_COMMAND = 0x100c;
     int SHELL_COMMAND_RESULT = 0x100d;
-	int DOWNLOAD_FILE = 0x100e;
+    int DOWNLOAD_FILE = 0x100e;
     int DOWNLOAD_FILE_UPLOAD = 0x100f;
 }

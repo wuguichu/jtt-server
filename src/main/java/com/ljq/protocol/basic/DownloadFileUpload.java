@@ -16,7 +16,7 @@ public class DownloadFileUpload extends AbstractInstruction {
         this.messageLength = messageLength;
     }
 
-	@Field(index = 1, type = FieldType.UINT16)
+    @Field(index = 1, type = FieldType.UINT16)
     public int getPackageSequence() {
         return packageSequence;
     }
@@ -25,7 +25,7 @@ public class DownloadFileUpload extends AbstractInstruction {
         this.packageSequence = packageSequence;
     }
 
-	@Field(index = 2, type = FieldType.UINT32)
+    @Field(index = 2, type = FieldType.UINT32)
     public long getTimeSign() {
         return timeSign;
     }
@@ -34,7 +34,7 @@ public class DownloadFileUpload extends AbstractInstruction {
         this.timeSign = timeSign;
     }
 
-	@Field(index = 3, type = FieldType.INT32STRING)
+    @Field(index = 3, type = FieldType.INT32STRING)
     public String getData() {
         return data;
     }
@@ -55,7 +55,7 @@ public class DownloadFileUpload extends AbstractInstruction {
     }
 
     private long messageLength;
-	private int packageSequence;
-	private long timeSign;
-	private String data;
+    private int packageSequence;
+    private long timeSign;
+    private String data;
 }
