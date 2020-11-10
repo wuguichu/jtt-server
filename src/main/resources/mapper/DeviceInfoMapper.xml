@@ -5,7 +5,7 @@
 <mapper namespace="com.ljq.backstage.sql.mapper.DeviceInfoMapper">
     <insert id="insert" parameterType="com.ljq.backstage.sql.entity.DeviceInfo">
         INSERT INTO jtt.device_info
-        (terminal_serial_number,
+        (terminal_serial_number
         <if test="carNumber!=null">,car_number</if>
         ,device_type
         <if test="appVersion!=null">,app_version</if>

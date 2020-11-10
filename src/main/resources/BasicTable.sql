@@ -16,7 +16,7 @@ create table if not exists `device_type`
 drop table if exists `device_info`;
 create table if not exists `device_info`
 (
-    `terminal_serial_number` char(6) not null comment '终端序列号',
+    `terminal_serial_number` char(12) not null comment '终端序列号',
     `car_number`             char(12) comment '车牌号',
     `device_type`            tinyint not null comment '设备型号',
     `app_version`            varchar(20) comment 'app版本号',
