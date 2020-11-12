@@ -4,5 +4,127 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ljq.backstage.sql.mapper.DeviceStatusMapper">
     <insert id="insert" parameterType="com.ljq.backstage.sql.entity.DeviceStatus">
+        insert into jtt.device_status(terminal_serial_number,power_on_status,time
+        <if test="timeZone!=null">,time_zone</if>
+        <if test="systemStatus!=null">,system_status</if>
+        <if test="ioChannelStatus!=null">,io_channel_status</if>
+        <if test="speed!=null">,speed</if>
+        <if test="high!=null">,high</if>
+        <if test="directionAngle!=null">,direction_angle</if>
+        <if test="longitude!=null">,longitude</if>
+        <if test="latitude!=null">,latitude</if>
+        <if test="gpsStatus!=null">,gps_status</if>
+        <if test="memoryType!=null">,memory_type</if>
+        <if test="memoryStatus!=null">,memory_status</if>
+        <if test="memoryTotalCapacity!=null">,memory_total_capacity</if>
+        <if test="memorySerialNumber!=null">,memory_serial_number</if>
+        <if test="udiskStatus!=null">,udisk_status</if>
+        <if test="ummcStatus!=null">,ummc_status</if>
+        <if test="channelStatus!=null">,channel_status</if>
+        <if test="recordStatus!=null">,record_status</if>
+        <if test="wirelessNetType!=null">,wireless_net_type</if>
+        <if test="wirelessSignal!=null">,wireless_signal</if>
+        <if test="wirelessDialMode!=null">,wireless_dial_mode</if>
+        <if test="wirelessMac!=null">,wireless_mac</if>
+        <if test="wirelessIp!=null">,wireless_ip</if>
+        <if test="wifiModule!=null">,wifi_module</if>
+        <if test="wifiSignal!=null">,wifi_signal</if>
+        <if test="wifiFunction!=null">,wifi_function</if>
+        <if test="wifiMode!=null">,wifi_mode</if>
+        <if test="peripheralType!=null">,peripheral_type</if>
+        <if test="peripheralConnection!=null">,peripheral_connection</if>
+        <if test="peripheralName!=null">,peripheral_name</if>
+        <if test="gsensorStatus!=null">,gsensor_status</if>
+        <if test="terminalVoltage!=null">,terminal_voltage</if>
+        <if test="accStatus!=null">,acc_status</if>
+        <if test="dmsAuthorization!=null">,dms_authorization</if>
+        <if test="adasAuthorization!=null">,adas_authorization</if>
+        <if test="bsdAuthorization!=null">,bsd_authorization</if>
+        <if test="internalTemperature!=null">,internal_temperature</if>
+        <if test="outsideTemperature!=null">,outside_temperature</if>
+        )
+        values (#{terminalSerialNumber},#{powerOnStatus},#{time}
+        <if test="timeZone!=null">,#{timeZone}</if>
+        <if test="systemStatus!=null">,#{systemStatus}</if>
+        <if test="ioChannelStatus!=null">,#{ioChannelStatus}</if>
+        <if test="speed!=null">,#{speed}</if>
+        <if test="high!=null">,#{high}</if>
+        <if test="directionAngle!=null">,#{directionAngle}</if>
+        <if test="longitude!=null">,#{longitude}</if>
+        <if test="latitude!=null">,#{latitude}</if>
+        <if test="gpsStatus!=null">,#{gpsStatus}</if>
+        <if test="memoryType!=null">,#{memoryType}</if>
+        <if test="memoryStatus!=null">,#{memoryStatus}</if>
+        <if test="memoryTotalCapacity!=null">,#{memoryTotalCapacity}</if>
+        <if test="memorySerialNumber!=null">,#{memorySerialNumber}</if>
+        <if test="udiskStatus!=null">,#{udiskStatus}</if>
+        <if test="ummcStatus!=null">,#{ummcStatus}</if>
+        <if test="channelStatus!=null">,#{channelStatus}</if>
+        <if test="recordStatus!=null">,#{recordStatus}</if>
+        <if test="wirelessNetType!=null">,#{wirelessNetType}</if>
+        <if test="wirelessSignal!=null">,#{wirelessSignal}</if>
+        <if test="wirelessDialMode!=null">,#{wirelessDialMode}</if>
+        <if test="wirelessMac!=null">,#{wirelessMac}</if>
+        <if test="wirelessIp!=null">,#{wirelessIp}</if>
+        <if test="wifiModule!=null">,#{wifiModule}</if>
+        <if test="wifiSignal!=null">,#{wifiSignal}</if>
+        <if test="wifiFunction!=null">,#{wifiFunction}</if>
+        <if test="wifiMode!=null">,#{wifiMode}</if>
+        <if test="peripheralType!=null">,#{peripheralType}</if>
+        <if test="peripheralConnection!=null">,#{peripheralConnection}</if>
+        <if test="peripheralName!=null">,#{peripheralName}</if>
+        <if test="gsensorStatus!=null">,#{gsensorStatus}</if>
+        <if test="terminalVoltage!=null">,#{terminalVoltage}</if>
+        <if test="accStatus!=null">,#{accStatus}</if>
+        <if test="dmsAuthorization!=null">,#{dmsAuthorization}</if>
+        <if test="adasAuthorization!=null">,#{adasAuthorization}</if>
+        <if test="bsdAuthorization!=null">,#{bsdAuthorization}</if>
+        <if test="internalTemperature!=null">,#{internalTemperature}</if>
+        <if test="outsideTemperature!=null">,#{outsideTemperature}</if>
+        )
     </insert>
+
+    <update id="update" parameterType="com.ljq.backstage.sql.entity.DeviceStatus">
+        update jtt.device_status
+        <set>
+            <if test="timeZone!=null">time_zone=#{timeZone}</if>
+            <if test="systemStatus!=null">,system_status=#{systemStatus}</if>
+            <if test="ioChannelStatus!=null">,io_channel_status=#{ioChannelStatus}</if>
+            <if test="speed!=null">,speed=#{speed}</if>
+            <if test="high!=null">,high=#{high}</if>
+            <if test="directionAngle!=null">,direction_angle=#{directionAngle}</if>
+            <if test="longitude!=null">,longitude=#{longitude}</if>
+            <if test="latitude!=null">,latitude=#{latitude}</if>
+            <if test="gpsStatus!=null">,gps_status=#{gpsStatus}</if>
+            <if test="memoryType!=null">,memory_type=#{memoryType}</if>
+            <if test="memoryStatus!=null">,memory_status=#{memoryStatus}</if>
+            <if test="memoryTotalCapacity!=null">,memory_total_capacity=#{memoryTotalCapacity}</if>
+            <if test="memorySerialNumber!=null">,memory_serial_number=#{memorySerialNumber}</if>
+            <if test="udiskStatus!=null">,udisk_status=#{udiskStatus}</if>
+            <if test="ummcStatus!=null">,ummc_status=#{ummcStatus}</if>
+            <if test="channelStatus!=null">,channel_status=#{channelStatus}</if>
+            <if test="recordStatus!=null">,record_status=#{recordStatus}</if>
+            <if test="wirelessNetType!=null">,wireless_net_type=#{wirelessNetType}</if>
+            <if test="wirelessSignal!=null">,wireless_signal=#{wirelessSignal}</if>
+            <if test="wirelessDialMode!=null">,wireless_dial_mode=#{wirelessDialMode}</if>
+            <if test="wirelessMac!=null">,wireless_mac=#{wirelessMac}</if>
+            <if test="wirelessIp!=null">,wireless_ip=#{wirelessIp}</if>
+            <if test="wifiModule!=null">,wifi_module=#{wifiModule}</if>
+            <if test="wifiSignal!=null">,wifi_signal=#{wifiSignal}</if>
+            <if test="wifiFunction!=null">,wifi_function=#{wifiFunction}</if>
+            <if test="wifiMode!=null">,wifi_mode=#{wifiMode}</if>
+            <if test="peripheralType!=null">,peripheral_type=#{peripheralType}</if>
+            <if test="peripheralConnection!=null">,peripheral_connection=#{peripheralConnection}</if>
+            <if test="peripheralName!=null">,peripheral_name=#{peripheralName}</if>
+            <if test="gsensorStatus!=null">,gsensor_status=#{gsensorStatus}</if>
+            <if test="terminalVoltage!=null">,terminal_voltage=#{terminalVoltage}</if>
+            <if test="accStatus!=null">,acc_status=#{accStatus}</if>
+            <if test="dmsAuthorization!=null">,dms_authorization=#{dmsAuthorization}</if>
+            <if test="adasAuthorization!=null">,adas_authorization=#{adasAuthorization}</if>
+            <if test="bsdAuthorization!=null">,bsd_authorization=#{bsdAuthorization}</if>
+            <if test="internalTemperature!=null">,internal_temperature=#{internalTemperature}</if>
+            <if test="outsideTemperature!=null">,outside_temperature=#{outsideTemperature}</if>
+        </set>
+        where terminal_serial_number = #{terminalSerialNumber} and time=#{time}
+    </update>
 </mapper>
