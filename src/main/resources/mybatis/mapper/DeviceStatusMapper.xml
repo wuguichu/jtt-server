@@ -127,4 +127,11 @@
         </set>
         where terminal_serial_number = #{terminalSerialNumber} and time=#{time}
     </update>
+
+    <select id="getByTerminalSerialNumberAndTime" resultType="com.ljq.backstage.sql.entity.DeviceStatus">
+        select *
+        from jtt.device_status
+        where terminal_serial_number = #{terminalSerialNumber}
+          and time = #{time}
+    </select>
 </mapper>

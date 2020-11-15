@@ -9,26 +9,25 @@ import com.ljq.framework.handler.HandlerMap;
 import com.ljq.framework.handler.JttSession;
 import com.ljq.framework.utils.BCDTransform;
 import com.ljq.protocol.basic.BasicId;
-import com.ljq.protocol.basic.TerminalStatusChange;
+import com.ljq.protocol.basic.PowerOnSelfCheckInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @HandlerMap(BasicId.TERMINAL_STATUS_CHANGE)
-public class TerminalStatusChangeHandler extends AbstractHandler<TerminalStatusChange> {
+public class PowerOnSelfCheckInfoHandler extends AbstractHandler<PowerOnSelfCheckInfo> {
 
     @Override
-    protected AbstractInstruction handleDeviceMessage(JttSession session, TerminalStatusChange message) {
+    protected AbstractInstruction handleDeviceMessage(JttSession session, PowerOnSelfCheckInfo message) {
         ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
         DeviceStatusMapper mapper = context.getBean("DeviceStatusMapper", DeviceStatusMapper.class);
         DeviceStatus deviceStatus = mapper.getByTerminalSerialNumberAndTime(BCDTransform.toString(message.getHeader().getTerminalNum()), message.getTimeInfo().getTime());
         if (deviceStatus == null) {
-            mapper.insert(DeviceStatusUtils.getDeviceStatusByChangeStatus(message));
+            mapper.insert(DeviceStatusUtils.getDeviceStatusByPowerOnStatus(message));
         } else {
-            mapper.update(DeviceStatusUtils.getDeviceStatusDiffByChangeStatus(message, deviceStatus));
+            mapper.update(DeviceStatusUtils.getDeviceStatusDiffByPowerOnStatus(message, deviceStatus));
         }
 
         return responseTerminal(message.getHeader().getInstruction(), 0);
     }
-
 }

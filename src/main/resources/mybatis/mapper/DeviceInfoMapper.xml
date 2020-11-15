@@ -31,7 +31,7 @@
     <update id="update" parameterType="com.ljq.backstage.sql.entity.DeviceInfo">
         update jtt.device_info
         <set>
-            <if test="carNumber!=null">car_number=#{carNumber.id},</if>
+            <if test="carNumber!=null">car_number=#{carNumber},</if>
             <if test="deviceType!=null">device_type=#{deviceType.id},</if>
             <if test="appVersion!=null">app_version=#{appVersion},</if>
             <if test="mcuVersion!=null">mcu_version=#{mcuVersion},</if>

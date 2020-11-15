@@ -7,7 +7,7 @@ public class DeviceStatus {
     public DeviceStatus() {
     }
 
-    public DeviceStatus(String terminalSerialNumber, boolean powerOnStatus, long time, short timeZone, long systemStatus, int ioChannelStatus, int speed, short high, int directionAngle, long longitude, long latitude, short gpsStatus, short[] memoryType, short[] memoryStatus, long[] memoryTotalCapacity, String[] memorySerialNumber, short udiskStatus, short ummcStatus, short[] channelStatus, short[] recordStatus, short wirelessNetType, byte wirelessSignal, short wirelessDialMode, String wirelessMac, String wirelessIp, short wifiModule, short wifiSignal, short wifiFunction, short wifiMode, short[] peripheralType, short[] peripheralConnection, String[] peripheralName, short gsensorStatus, int terminalVoltage, short accStatus, short dmsAuthorization, short adasAuthorization, short bsdAuthorization, short internalTemperature, short outsideTemperature) {
+    public DeviceStatus(String terminalSerialNumber, boolean powerOnStatus, Long time, Short timeZone, Long systemStatus, Integer ioChannelStatus, Integer speed, Short high, Integer directionAngle, Long longitude, Long latitude, Short gpsStatus, Short[] memoryType, Short[] memoryStatus, Long[] memoryTotalCapacity, String[] memorySerialNumber, Short udiskStatus, Short ummcStatus, Short[] channelStatus, Short[] recordStatus, Short wirelessNetType, Byte wirelessSignal, Short wirelessDialMode, String wirelessMac, String wirelessIp, Short wifiModule, Short wifiSignal, Short wifiFunction, Short wifiMode, Short[] peripheralType, Short[] peripheralConnection, String[] peripheralName, Short gsensorStatus, Integer terminalVoltage, Short accStatus, Short dmsAuthorization, Short adasAuthorization, Short bsdAuthorization, Short internalTemperature, Short outsideTemperature) {
         this.terminalSerialNumber = terminalSerialNumber;
         this.powerOnStatus = powerOnStatus;
         this.time = time;
@@ -66,107 +66,107 @@ public class DeviceStatus {
         this.powerOnStatus = powerOnStatus;
     }
 
-    public long getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
-    public short getTimeZone() {
+    public Short getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(short timeZone) {
+    public void setTimeZone(Short timeZone) {
         this.timeZone = timeZone;
     }
 
-    public long getSystemStatus() {
+    public Long getSystemStatus() {
         return systemStatus;
     }
 
-    public void setSystemStatus(long systemStatus) {
+    public void setSystemStatus(Long systemStatus) {
         this.systemStatus = systemStatus;
     }
 
-    public int getIoChannelStatus() {
+    public Integer getIoChannelStatus() {
         return ioChannelStatus;
     }
 
-    public void setIoChannelStatus(int ioChannelStatus) {
+    public void setIoChannelStatus(Integer ioChannelStatus) {
         this.ioChannelStatus = ioChannelStatus;
     }
 
-    public int getSpeed() {
+    public Integer getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(Integer speed) {
         this.speed = speed;
     }
 
-    public short getHigh() {
+    public Short getHigh() {
         return high;
     }
 
-    public void setHigh(short high) {
+    public void setHigh(Short high) {
         this.high = high;
     }
 
-    public int getDirectionAngle() {
+    public Integer getDirectionAngle() {
         return directionAngle;
     }
 
-    public void setDirectionAngle(int directionAngle) {
+    public void setDirectionAngle(Integer directionAngle) {
         this.directionAngle = directionAngle;
     }
 
-    public long getLongitude() {
+    public Long getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(Long longitude) {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public Long getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(Long latitude) {
         this.latitude = latitude;
     }
 
-    public short getGpsStatus() {
+    public Short getGpsStatus() {
         return gpsStatus;
     }
 
-    public void setGpsStatus(short gpsStatus) {
+    public void setGpsStatus(Short gpsStatus) {
         this.gpsStatus = gpsStatus;
     }
 
-    public short[] getMemoryType() {
+    public Short[] getMemoryType() {
         return memoryType;
     }
 
-    public void setMemoryType(short[] memoryType) {
+    public void setMemoryType(Short[] memoryType) {
         this.memoryType = memoryType;
     }
 
-    public short[] getMemoryStatus() {
+    public Short[] getMemoryStatus() {
         return memoryStatus;
     }
 
-    public void setMemoryStatus(short[] memoryStatus) {
+    public void setMemoryStatus(Short[] memoryStatus) {
         this.memoryStatus = memoryStatus;
     }
 
-    public long[] getMemoryTotalCapacity() {
+    public Long[] getMemoryTotalCapacity() {
         return memoryTotalCapacity;
     }
 
-    public void setMemoryTotalCapacity(long[] memoryTotalCapacity) {
+    public void setMemoryTotalCapacity(Long[] memoryTotalCapacity) {
         this.memoryTotalCapacity = memoryTotalCapacity;
     }
 
@@ -178,59 +178,59 @@ public class DeviceStatus {
         this.memorySerialNumber = memorySerialNumber;
     }
 
-    public short getUdiskStatus() {
+    public Short getUdiskStatus() {
         return udiskStatus;
     }
 
-    public void setUdiskStatus(short udiskStatus) {
+    public void setUdiskStatus(Short udiskStatus) {
         this.udiskStatus = udiskStatus;
     }
 
-    public short getUmmcStatus() {
+    public Short getUmmcStatus() {
         return ummcStatus;
     }
 
-    public void setUmmcStatus(short ummcStatus) {
+    public void setUmmcStatus(Short ummcStatus) {
         this.ummcStatus = ummcStatus;
     }
 
-    public short[] getChannelStatus() {
+    public Short[] getChannelStatus() {
         return channelStatus;
     }
 
-    public void setChannelStatus(short[] channelStatus) {
+    public void setChannelStatus(Short[] channelStatus) {
         this.channelStatus = channelStatus;
     }
 
-    public short[] getRecordStatus() {
+    public Short[] getRecordStatus() {
         return recordStatus;
     }
 
-    public void setRecordStatus(short[] recordStatus) {
+    public void setRecordStatus(Short[] recordStatus) {
         this.recordStatus = recordStatus;
     }
 
-    public short getWirelessNetType() {
+    public Short getWirelessNetType() {
         return wirelessNetType;
     }
 
-    public void setWirelessNetType(short wirelessNetType) {
+    public void setWirelessNetType(Short wirelessNetType) {
         this.wirelessNetType = wirelessNetType;
     }
 
-    public byte getWirelessSignal() {
+    public Byte getWirelessSignal() {
         return wirelessSignal;
     }
 
-    public void setWirelessSignal(byte wirelessSignal) {
+    public void setWirelessSignal(Byte wirelessSignal) {
         this.wirelessSignal = wirelessSignal;
     }
 
-    public short getWirelessDialMode() {
+    public Short getWirelessDialMode() {
         return wirelessDialMode;
     }
 
-    public void setWirelessDialMode(short wirelessDialMode) {
+    public void setWirelessDialMode(Short wirelessDialMode) {
         this.wirelessDialMode = wirelessDialMode;
     }
 
@@ -250,51 +250,51 @@ public class DeviceStatus {
         this.wirelessIp = wirelessIp;
     }
 
-    public short getWifiModule() {
+    public Short getWifiModule() {
         return wifiModule;
     }
 
-    public void setWifiModule(short wifiModule) {
+    public void setWifiModule(Short wifiModule) {
         this.wifiModule = wifiModule;
     }
 
-    public short getWifiSignal() {
+    public Short getWifiSignal() {
         return wifiSignal;
     }
 
-    public void setWifiSignal(short wifiSignal) {
+    public void setWifiSignal(Short wifiSignal) {
         this.wifiSignal = wifiSignal;
     }
 
-    public short getWifiFunction() {
+    public Short getWifiFunction() {
         return wifiFunction;
     }
 
-    public void setWifiFunction(short wifiFunction) {
+    public void setWifiFunction(Short wifiFunction) {
         this.wifiFunction = wifiFunction;
     }
 
-    public short getWifiMode() {
+    public Short getWifiMode() {
         return wifiMode;
     }
 
-    public void setWifiMode(short wifiMode) {
+    public void setWifiMode(Short wifiMode) {
         this.wifiMode = wifiMode;
     }
 
-    public short[] getPeripheralType() {
+    public Short[] getPeripheralType() {
         return peripheralType;
     }
 
-    public void setPeripheralType(short[] peripheralType) {
+    public void setPeripheralType(Short[] peripheralType) {
         this.peripheralType = peripheralType;
     }
 
-    public short[] getPeripheralConnection() {
+    public Short[] getPeripheralConnection() {
         return peripheralConnection;
     }
 
-    public void setPeripheralConnection(short[] peripheralConnection) {
+    public void setPeripheralConnection(Short[] peripheralConnection) {
         this.peripheralConnection = peripheralConnection;
     }
 
@@ -306,67 +306,67 @@ public class DeviceStatus {
         this.peripheralName = peripheralName;
     }
 
-    public short getGsensorStatus() {
+    public Short getGsensorStatus() {
         return gsensorStatus;
     }
 
-    public void setGsensorStatus(short gsensorStatus) {
+    public void setGsensorStatus(Short gsensorStatus) {
         this.gsensorStatus = gsensorStatus;
     }
 
-    public int getTerminalVoltage() {
+    public Integer getTerminalVoltage() {
         return terminalVoltage;
     }
 
-    public void setTerminalVoltage(int terminalVoltage) {
+    public void setTerminalVoltage(Integer terminalVoltage) {
         this.terminalVoltage = terminalVoltage;
     }
 
-    public short getAccStatus() {
+    public Short getAccStatus() {
         return accStatus;
     }
 
-    public void setAccStatus(short accStatus) {
+    public void setAccStatus(Short accStatus) {
         this.accStatus = accStatus;
     }
 
-    public short getDmsAuthorization() {
+    public Short getDmsAuthorization() {
         return dmsAuthorization;
     }
 
-    public void setDmsAuthorization(short dmsAuthorization) {
+    public void setDmsAuthorization(Short dmsAuthorization) {
         this.dmsAuthorization = dmsAuthorization;
     }
 
-    public short getAdasAuthorization() {
+    public Short getAdasAuthorization() {
         return adasAuthorization;
     }
 
-    public void setAdasAuthorization(short adasAuthorization) {
+    public void setAdasAuthorization(Short adasAuthorization) {
         this.adasAuthorization = adasAuthorization;
     }
 
-    public short getBsdAuthorization() {
+    public Short getBsdAuthorization() {
         return bsdAuthorization;
     }
 
-    public void setBsdAuthorization(short bsdAuthorization) {
+    public void setBsdAuthorization(Short bsdAuthorization) {
         this.bsdAuthorization = bsdAuthorization;
     }
 
-    public short getInternalTemperature() {
+    public Short getInternalTemperature() {
         return internalTemperature;
     }
 
-    public void setInternalTemperature(short internalTemperature) {
+    public void setInternalTemperature(Short internalTemperature) {
         this.internalTemperature = internalTemperature;
     }
 
-    public short getOutsideTemperature() {
+    public Short getOutsideTemperature() {
         return outsideTemperature;
     }
 
-    public void setOutsideTemperature(short outsideTemperature) {
+    public void setOutsideTemperature(Short outsideTemperature) {
         this.outsideTemperature = outsideTemperature;
     }
 
@@ -417,46 +417,46 @@ public class DeviceStatus {
     }
 
     private String terminalSerialNumber;
-    private boolean powerOnStatus;
+    private Boolean powerOnStatus;
 
-    private long time;
-    private short timeZone;
+    private Long time;
+    private Short timeZone;
 
-    private long systemStatus;
-    private int ioChannelStatus;
-    private int speed;
-    private short high;
-    private int directionAngle;
-    private long longitude;
-    private long latitude;
+    private Long systemStatus;
+    private Integer ioChannelStatus;
+    private Integer speed;
+    private Short high;
+    private Integer directionAngle;
+    private Long longitude;
+    private Long latitude;
 
-    private short gpsStatus;
-    private short[] memoryType;
-    private short[] memoryStatus;
-    private long[] memoryTotalCapacity;
+    private Short gpsStatus;
+    private Short[] memoryType;
+    private Short[] memoryStatus;
+    private Long[] memoryTotalCapacity;
     private String[] memorySerialNumber;
-    private short udiskStatus;
-    private short ummcStatus;
-    private short[] channelStatus;
-    private short[] recordStatus;
-    private short wirelessNetType;
-    private byte wirelessSignal;
-    private short wirelessDialMode;
+    private Short udiskStatus;
+    private Short ummcStatus;
+    private Short[] channelStatus;
+    private Short[] recordStatus;
+    private Short wirelessNetType;
+    private Byte wirelessSignal;
+    private Short wirelessDialMode;
     private String wirelessMac;
     private String wirelessIp;
-    private short wifiModule;
-    private short wifiSignal;
-    private short wifiFunction;
-    private short wifiMode;
-    private short[] peripheralType;
-    private short[] peripheralConnection;
+    private Short wifiModule;
+    private Short wifiSignal;
+    private Short wifiFunction;
+    private Short wifiMode;
+    private Short[] peripheralType;
+    private Short[] peripheralConnection;
     private String[] peripheralName;
-    private short gsensorStatus;
-    private int terminalVoltage;
-    private short accStatus;
-    private short dmsAuthorization;
-    private short adasAuthorization;
-    private short bsdAuthorization;
-    private short internalTemperature;
-    private short outsideTemperature;
+    private Short gsensorStatus;
+    private Integer terminalVoltage;
+    private Short accStatus;
+    private Short dmsAuthorization;
+    private Short adasAuthorization;
+    private Short bsdAuthorization;
+    private Short internalTemperature;
+    private Short outsideTemperature;
 }

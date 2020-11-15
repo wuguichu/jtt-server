@@ -16,7 +16,7 @@ public class SqlUtils {
 
     static {
         try {
-            InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+            InputStream is = Resources.getResourceAsStream("mybatis/mybatis-config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
         } catch (IOException e) {
             e.printStackTrace();

@@ -30,7 +30,7 @@ create table if not exists `device_info`
 drop table if exists `device_status`;
 create table if not exists `device_status`
 (
-    `terminal_serial_number` char(6)      not null comment '终端序列号',
+    `terminal_serial_number` char(12)     not null comment '终端序列号',
     `power_on_status`        bit          not null default false comment '是否是开机状态',
     `time`                   int unsigned not null comment '产生时间',
     `time_zone`              tinyint unsigned      default null comment '时区',
