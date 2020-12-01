@@ -13,14 +13,14 @@ import com.ljq.protocol.basic.PowerOnSelfCheckInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@HandlerMap(BasicId.TERMINAL_STATUS_CHANGE)
+@HandlerMap(BasicId.POWER_ON_SELF_CHECK_INFO)
 public class PowerOnSelfCheckInfoHandler extends AbstractHandler<PowerOnSelfCheckInfo> {
 
     @Override
     protected AbstractInstruction handleDeviceMessage(JttSession session, PowerOnSelfCheckInfo message) {
         ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-        DeviceStatusMapper mapper = context.getBean("DeviceStatusMapper", DeviceStatusMapper.class);
+        DeviceStatusMapper mapper = context.getBean("deviceStatusMapper", DeviceStatusMapper.class);
         DeviceStatus deviceStatus = mapper.getByTerminalSerialNumberAndTime(BCDTransform.toString(message.getHeader().getTerminalNum()), message.getTimeInfo().getTime());
         if (deviceStatus == null) {
             mapper.insert(DeviceStatusUtils.getDeviceStatusByPowerOnStatus(message));

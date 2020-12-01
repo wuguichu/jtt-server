@@ -20,7 +20,7 @@ public class TerminalStatusChangeHandler extends AbstractHandler<TerminalStatusC
     protected AbstractInstruction handleDeviceMessage(JttSession session, TerminalStatusChange message) {
         ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-        DeviceStatusMapper mapper = context.getBean("DeviceStatusMapper", DeviceStatusMapper.class);
+        DeviceStatusMapper mapper = context.getBean("deviceStatusMapper", DeviceStatusMapper.class);
         DeviceStatus deviceStatus = mapper.getByTerminalSerialNumberAndTime(BCDTransform.toString(message.getHeader().getTerminalNum()), message.getTimeInfo().getTime());
         if (deviceStatus == null) {
             mapper.insert(DeviceStatusUtils.getDeviceStatusByChangeStatus(message));
